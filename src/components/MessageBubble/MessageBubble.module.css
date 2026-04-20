@@ -1,34 +1,72 @@
 .bubble {
+  position: relative;
   display: grid;
-  max-width: min(560px, 76%);
-  gap: var(--space-1);
-  padding: 9px var(--space-3) 7px;
-  border-radius: 14px;
-  box-shadow: var(--shadow-sm);
+  max-width: min(560px, 72%);
+  gap: 2px;
+  padding: 8px 11px 6px;
+  border-radius: 13px;
+  box-shadow: 0 1px 1px rgba(30, 56, 75, 0.08);
+}
+
+.richBubble {
+  max-width: min(720px, 88%);
+  padding: 10px;
 }
 
 .bubble p {
   margin: 0;
   font-size: 15px;
-  line-height: 1.45;
+  line-height: 1.42;
+  white-space: pre-line;
 }
 
-.bubble time {
+.bubble mark {
+  border-radius: 4px;
+  color: inherit;
+  background: rgba(255, 214, 94, 0.62);
+}
+
+.meta {
+  display: inline-flex;
+  align-items: center;
   justify-self: end;
+  gap: 3px;
   color: var(--color-text-soft);
   font-size: 12px;
+  line-height: 1;
 }
 
 .incoming {
   justify-self: start;
-  border-bottom-left-radius: 5px;
+  border-bottom-left-radius: 4px;
   background: var(--color-message-in);
 }
 
 .outgoing {
   justify-self: end;
-  border-bottom-right-radius: 5px;
-  background: var(--color-message-out);
+  border-bottom-right-radius: 4px;
+  background: #e4ffd4;
+}
+
+.groupedPrevious {
+  margin-top: 0;
+}
+
+.groupedNext {
+  margin-bottom: 1px;
+  border-bottom-left-radius: 13px;
+  border-bottom-right-radius: 13px;
+}
+
+.checks {
+  display: inline-flex;
+  width: 18px;
+  align-items: center;
+  color: #4fae63;
+}
+
+.secondCheck {
+  margin-left: -8px;
 }
 
 @media (max-width: 640px) {

@@ -23,6 +23,17 @@
   transform: scale(0.97);
 }
 
+.button:disabled {
+  cursor: default;
+  opacity: 0.48;
+  transform: none;
+}
+
+.button:disabled:hover {
+  color: var(--color-text-muted);
+  background: transparent;
+}
+
 .ghost {
   background: transparent;
 }
@@ -36,4 +47,20 @@
 .filled:hover {
   color: #ffffff;
   background: var(--color-primary-dark);
+}
+
+.filled:disabled:hover {
+  color: #ffffff;
+  background: var(--color-primary);
+}
+
+.recording {
+  color: #ffffff;
+  background: #d64668;
+  box-shadow: 0 6px 16px rgba(214, 70, 104, 0.25);
+}
+
+.recording:hover {
+  color: #ffffff;
+  background: #c43d5f;
 }

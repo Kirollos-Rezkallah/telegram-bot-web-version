@@ -1,16 +1,45 @@
+.shell {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
 .sidebar {
   display: flex;
-  width: 386px;
   min-width: 344px;
+  max-width: 480px;
+  min-height: 0;
   flex-direction: column;
-  border-right: 1px solid #dce6ed;
   background: var(--color-surface);
+}
+
+.resizeHandle {
+  width: 5px;
+  min-width: 5px;
+  padding: 0;
+  border: 0;
+  border-right: 1px solid #dce6ed;
+  border-left: 1px solid transparent;
+  background: transparent;
+  cursor: col-resize;
+  transition:
+    border-color 140ms ease,
+    background 140ms ease;
+}
+
+.resizeHandle:hover {
+  border-right-color: rgba(51, 144, 236, 0.45);
+  background: rgba(51, 144, 236, 0.08);
 }
 
 .chat {
   display: flex;
   min-width: 0;
+  min-height: 0;
   flex: 1;
+  overflow: hidden;
   flex-direction: column;
   background:
     linear-gradient(rgba(226, 239, 247, 0.84), rgba(226, 239, 247, 0.84)),
@@ -19,26 +48,29 @@
 }
 
 .details {
-  width: 304px;
-  border-left: 1px solid #dce6ed;
+  min-width: 280px;
+  max-width: 430px;
+  min-height: 0;
+  overflow: hidden;
   background: #fbfdff;
 }
 
 @media (max-width: 1260px) {
-  .details {
+  .details,
+  .detailsHandle {
     display: none;
   }
 }
 
 @media (max-width: 980px) {
   .sidebar {
-    width: 340px;
     min-width: 320px;
   }
 }
 
 @media (max-width: 760px) {
-  .sidebar {
+  .sidebar,
+  .resizeHandle {
     display: none;
   }
 }
