@@ -1,0 +1,123 @@
+.panel {
+  display: grid;
+  gap: var(--space-3);
+  padding: 14px 14px 10px;
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.profile {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.profileText {
+  min-width: 0;
+  flex: 1;
+}
+
+.profileText strong,
+.profileText span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profileText strong {
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.profileText span {
+  color: var(--color-text-soft);
+  font-size: 13px;
+}
+
+.menuButton {
+  margin-right: -2px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.menuIcon,
+.menuIcon::before,
+.menuIcon::after {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.menuIcon {
+  position: relative;
+}
+
+.menuIcon::before,
+.menuIcon::after {
+  position: absolute;
+  left: 0;
+  content: '';
+}
+
+.menuIcon::before {
+  top: -6px;
+}
+
+.menuIcon::after {
+  top: 6px;
+}
+
+.search {
+  position: relative;
+  display: block;
+  flex: 1;
+}
+
+.searchIcon {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  width: 15px;
+  height: 15px;
+  border: 2px solid var(--color-text-soft);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.searchIcon::after {
+  position: absolute;
+  right: -6px;
+  bottom: -4px;
+  width: 8px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-text-soft);
+  content: '';
+  transform: rotate(45deg);
+}
+
+.search input {
+  width: 100%;
+  height: 38px;
+  padding: 0 var(--space-4) 0 40px;
+  border: 0;
+  border-radius: 10px;
+  color: var(--color-text);
+  outline: 0;
+  background: #f1f5f8;
+  font-size: 14px;
+}
+
+.search input:focus {
+  background: #ffffff;
+  box-shadow: inset 0 0 0 2px rgba(51, 144, 236, 0.2);
+}

@@ -1,0 +1,86 @@
+.header {
+  display: flex;
+  min-height: 64px;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.identity {
+  min-width: 0;
+  flex: 1;
+}
+
+.identity strong,
+.identity span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.identity strong {
+  font-size: 16px;
+}
+
+.identity span {
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.searchIcon {
+  width: 17px;
+  height: 17px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  position: relative;
+}
+
+.searchIcon::after {
+  position: absolute;
+  right: -6px;
+  bottom: -5px;
+  width: 8px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  content: '';
+  transform: rotate(45deg);
+}
+
+.moreIcon,
+.moreIcon::before,
+.moreIcon::after {
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.moreIcon {
+  position: relative;
+}
+
+.moreIcon::before,
+.moreIcon::after {
+  position: absolute;
+  left: 0;
+  content: '';
+}
+
+.moreIcon::before {
+  top: -7px;
+}
+
+.moreIcon::after {
+  top: 7px;
+}
