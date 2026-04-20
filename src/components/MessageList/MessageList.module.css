@@ -1,0 +1,19 @@
+.scroller {
+  display: grid;
+  flex: 1;
+  align-content: end;
+  gap: var(--space-2);
+  min-height: 0;
+  padding: var(--space-5) clamp(var(--space-4), 5vw, 72px);
+  overflow: auto;
+}
+
+.dayDivider {
+  justify-self: center;
+  padding: 5px 12px;
+  border-radius: var(--radius-round);
+  color: #ffffff;
+  background: rgba(92, 115, 133, 0.44);
+  font-size: 12px;
+  font-weight: 700;
+}

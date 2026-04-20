@@ -1,0 +1,38 @@
+.bubble {
+  display: grid;
+  max-width: min(560px, 76%);
+  gap: var(--space-1);
+  padding: 9px var(--space-3) 7px;
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.bubble p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.bubble time {
+  justify-self: end;
+  color: var(--color-text-soft);
+  font-size: 12px;
+}
+
+.incoming {
+  justify-self: start;
+  border-bottom-left-radius: 5px;
+  background: var(--color-message-in);
+}
+
+.outgoing {
+  justify-self: end;
+  border-bottom-right-radius: 5px;
+  background: var(--color-message-out);
+}
+
+@media (max-width: 640px) {
+  .bubble {
+    max-width: 88%;
+  }
+}
