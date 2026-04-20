@@ -1,0 +1,39 @@
+.avatar {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  box-shadow: inset 0 -14px 24px rgba(23, 33, 43, 0.12);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.blue {
+  background: linear-gradient(145deg, #55b4ee, #2381cc);
+}
+
+.rose {
+  background: linear-gradient(145deg, #f4aac5, #d45c8a);
+}
+
+.green {
+  background: linear-gradient(145deg, #8dd789, #4fac62);
+}
+
+.violet {
+  background: linear-gradient(145deg, #9d8df0, #7261c9);
+}
+
+.amber {
+  background: linear-gradient(145deg, #f0bd6a, #d78b2c);
+}
