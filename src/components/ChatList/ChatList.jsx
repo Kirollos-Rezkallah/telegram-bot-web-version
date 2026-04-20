@@ -1,6 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { FiBellOff, FiCheckCircle, FiMapPin } from 'react-icons/fi';
 
-import { setActiveDialog } from '../../features/chat/chatSlice';
+import { setActiveChat } from '../../features/app/appSlice';
+import { markChatRead } from '../../features/chats/chatsSlice';
+import { selectActiveChatId, selectChatList } from '../../features/chats/chatsSelectors';
 import { Avatar } from '../Avatar/Avatar';
 import styles from './ChatList.module.css';
 
@@ -8,39 +11,46 @@ const fallbackTones = ['blue', 'rose', 'green', 'violet', 'amber'];
 
 export function ChatList() {
   const dispatch = useDispatch();
-  const { activeDialogId, dialogs } = useSelector((state) => state.chat);
+  const activeChatId = useSelector(selectActiveChatId);
+  const chats = useSelector(selectChatList);
 
   return (
     <div className={styles.list}>
-      {dialogs.map((dialog, index) => {
-        const isActive = dialog.id === activeDialogId;
-        const tone = dialog.tone ?? fallbackTones[index % fallbackTones.length];
+      {chats.length === 0 ? <p className={styles.empty}>No chats found</p> : null}
+      {chats.map((chat, index) => {
+        const isActive = chat.id === activeChatId;
+        const tone = chat.tone ?? fallbackTones[index % fallbackTones.length];
+
+        const handleSelectChat = () => {
+          dispatch(setActiveChat(chat.id));
+          dispatch(markChatRead(chat.id));
+        };
 
         return (
           <button
-            key={dialog.id}
+            key={chat.id}
             className={`${styles.item} ${isActive ? styles.active : ''}`}
             type="button"
-            onClick={() => dispatch(setActiveDialog(dialog.id))}
+            onClick={handleSelectChat}
           >
             <span className={styles.avatarWrap}>
-              <Avatar label={dialog.title} tone={tone} />
-              {dialog.status === 'bot' ? <span className={styles.botDot} aria-hidden="true" /> : null}
+              <Avatar label={chat.title} tone={tone} />
+              {chat.kind === 'bot' ? <span className={styles.botDot} aria-hidden="true" /> : null}
             </span>
             <span className={styles.content}>
               <span className={styles.row}>
                 <strong>
-                  {dialog.title}
-                  {dialog.isVerified ? <span className={styles.verified} aria-label="verified" /> : null}
+                  {chat.title}
+                  {chat.isVerified ? <FiCheckCircle className={styles.verified} aria-label="verified" size={15} /> : null}
                 </strong>
-                <time>{dialog.timestamp}</time>
+                <time>{chat.timestamp}</time>
               </span>
               <span className={styles.row}>
-                <span className={styles.preview}>{dialog.subtitle}</span>
+                <span className={styles.preview}>{chat.subtitle}</span>
                 <span className={styles.meta}>
-                  {dialog.isMuted ? <span className={styles.muted} aria-label="muted" /> : null}
-                  {dialog.isPinned ? <span className={styles.pin} aria-label="pinned" /> : null}
-                  {dialog.unreadCount ? <span className={styles.badge}>{dialog.unreadCount}</span> : null}
+                  {chat.isMuted ? <FiBellOff className={styles.metaIcon} aria-label="muted" size={14} /> : null}
+                  {chat.isPinned ? <FiMapPin className={styles.metaIcon} aria-label="pinned" size={14} /> : null}
+                  {chat.unreadCount ? <span className={styles.badge}>{chat.unreadCount}</span> : null}
                 </span>
               </span>
             </span>
