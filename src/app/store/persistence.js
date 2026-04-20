@@ -2,8 +2,13 @@ import { saveClientState } from '../../services/storage';
 import { throttle } from '../../utils/throttle';
 
 const selectPersistedState = (state) => ({
+  app: state.app,
+  botSession: state.botSession,
+  categories: state.categories,
+  chats: state.chats,
+  messages: state.messages,
   orders: state.orders,
-  session: state.session,
+  products: state.products,
 });
 
 export function initializeClientPersistence(store) {
