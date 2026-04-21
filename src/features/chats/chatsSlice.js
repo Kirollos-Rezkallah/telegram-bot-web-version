@@ -35,8 +35,15 @@ const chatsSlice = createSlice({
         chat.lastMessageAt = lastMessageAt ?? chat.lastMessageAt;
       }
     },
+    incrementUnread(state, action) {
+      const chat = state.entities[action.payload];
+
+      if (chat) {
+        chat.unreadCount = (chat.unreadCount ?? 0) + 1;
+      }
+    },
   },
 });
 
-export const { markChatRead, updateChatPreview, upsertChat } = chatsSlice.actions;
+export const { incrementUnread, markChatRead, updateChatPreview, upsertChat } = chatsSlice.actions;
 export default chatsSlice.reducer;

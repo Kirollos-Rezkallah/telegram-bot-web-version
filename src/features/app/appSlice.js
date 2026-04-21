@@ -8,6 +8,8 @@ const appSlice = createSlice({
   reducers: {
     setActiveChat(state, action) {
       state.activeChatId = action.payload;
+      state.messageSearchOpen = false;
+      state.messageSearchQuery = '';
     },
     setRole(state, action) {
       state.role = action.payload;

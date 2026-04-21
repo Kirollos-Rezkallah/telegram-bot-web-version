@@ -1,6 +1,6 @@
 import { createSeedState } from './seedData';
 
-const STORAGE_KEY = 'anastasia-confectionery-state';
+export const STORAGE_KEY = 'anastasia-confectionery-state';
 const STORAGE_VERSION = 2;
 const SUPPORTED_BOT_STEPS = new Set([
   'idle',
@@ -35,6 +35,41 @@ function mergeCollection(seedCollection, savedCollection) {
       ...savedCollection.entities,
     },
   };
+}
+
+function mergeProductsCollection(seedCollection, savedCollection) {
+  const merged = mergeCollection(seedCollection, savedCollection);
+
+  seedCollection.ids.forEach((id) => {
+    const savedProduct = savedCollection?.entities?.[id];
+    const seedProduct = seedCollection.entities[id];
+
+    if (!savedProduct || !seedProduct) {
+      return;
+    }
+
+    const wasSeedImage =
+      typeof savedProduct.imageUrl === 'string' &&
+      savedProduct.imageUrl.includes('images.unsplash.com') &&
+      savedProduct.imageUrl.includes('w=640&q=80');
+
+    if (wasSeedImage || !savedProduct.image) {
+      merged.entities[id] = {
+        ...merged.entities[id],
+        image: seedProduct.image,
+      };
+    }
+  });
+
+  merged.ids.forEach((id) => {
+    const product = merged.entities[id];
+
+    if (product && !product.image && product.imageUrl) {
+      product.image = product.imageUrl;
+    }
+  });
+
+  return merged;
 }
 
 function mergeSavedState(savedState) {
@@ -77,7 +112,7 @@ function mergeSavedState(savedState) {
       },
     },
     orders: mergeCollection(seedState.orders, savedState.orders),
-    products: mergeCollection(seedState.products, savedState.products),
+    products: mergeProductsCollection(seedState.products, savedState.products),
   };
 }
 
