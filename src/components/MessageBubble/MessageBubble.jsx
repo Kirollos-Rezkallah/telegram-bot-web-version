@@ -1,6 +1,7 @@
 import { FiCheck, FiFileText } from 'react-icons/fi';
 
 import { CatalogMessage } from '../CatalogMessage/CatalogMessage';
+import { InvoiceMessage } from '../InvoiceMessage/InvoiceMessage';
 import { OrderHistoryMessage } from '../OrderHistoryMessage/OrderHistoryMessage';
 import { OrderReviewMessage } from '../OrderReviewMessage/OrderReviewMessage';
 import { formatShortTime } from '../../utils/formatters';
@@ -31,7 +32,7 @@ export function MessageBubble({ groupedWithNext = false, groupedWithPrevious = f
   const className = [
     styles.bubble,
     isOutgoing ? styles.outgoing : styles.incoming,
-    ['catalog', 'order_history', 'order_review'].includes(message.type) ? styles.richBubble : '',
+    ['catalog', 'invoice', 'order_history', 'order_review'].includes(message.type) ? styles.richBubble : '',
     groupedWithPrevious ? styles.groupedPrevious : '',
     groupedWithNext ? styles.groupedNext : '',
   ]
@@ -53,6 +54,13 @@ export function MessageBubble({ groupedWithNext = false, groupedWithPrevious = f
             <HighlightedText query={searchQuery} text={message.text} />
           </p>
           <OrderReviewMessage review={message.orderReview} />
+        </>
+      ) : message.type === 'invoice' ? (
+        <>
+          <p>
+            <HighlightedText query={searchQuery} text={message.text} />
+          </p>
+          <InvoiceMessage invoice={message.invoice} />
         </>
       ) : message.type === 'order_history' ? (
         <>
