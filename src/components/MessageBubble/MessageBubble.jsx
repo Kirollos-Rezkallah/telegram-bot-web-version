@@ -1,4 +1,4 @@
-import { FiCheck } from 'react-icons/fi';
+import { FiCheck, FiFileText } from 'react-icons/fi';
 
 import { CatalogMessage } from '../CatalogMessage/CatalogMessage';
 import { OrderHistoryMessage } from '../OrderHistoryMessage/OrderHistoryMessage';
@@ -61,6 +61,20 @@ export function MessageBubble({ groupedWithNext = false, groupedWithPrevious = f
           </p>
           <OrderHistoryMessage orderIds={message.orderIds} />
         </>
+      ) : message.type === 'file' ? (
+        <div className={styles.fileMessage}>
+          <span className={styles.fileIcon}>
+            <FiFileText aria-hidden="true" size={21} />
+          </span>
+          <span className={styles.fileText}>
+            <strong>
+              <HighlightedText query={searchQuery} text={message.attachment?.name ?? message.text} />
+            </strong>
+            <small>
+              {[message.attachment?.extension, message.attachment?.sizeLabel].filter(Boolean).join(' / ')}
+            </small>
+          </span>
+        </div>
       ) : (
         <p>
           <HighlightedText query={searchQuery} text={message.text} />

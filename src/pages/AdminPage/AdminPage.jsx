@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { createProduct, deleteProduct, upsertProduct } from '../../features/products/productsSlice';
-import { updateOrder } from '../../features/orders/ordersSlice';
 import { ORDER_STATUSES } from '../../features/orders/orderStatus';
+import { updateOrderStatus } from '../../features/orders/updateOrderStatus';
 import { selectCategoriesList } from '../../features/categories/categoriesSelectors';
 import { selectCustomerOrders } from '../../features/orders/ordersSelectors';
 import { selectProductsList } from '../../features/products/productsSelectors';
@@ -26,7 +26,7 @@ const emptyProductForm = {
   description: '',
   basePrice: '',
   categoryId: '',
-  imageUrl: '',
+  image: '',
   leadTimeHours: '48',
   isAvailable: true,
 };
@@ -46,6 +46,7 @@ function ProductForm({ categories, editingProduct, onCancel, onSubmit }) {
     editingProduct
       ? {
           ...editingProduct,
+          image: editingProduct.image ?? editingProduct.imageUrl ?? '',
           basePrice: String(editingProduct.basePrice),
           leadTimeHours: String(editingProduct.leadTimeHours),
         }
@@ -75,7 +76,7 @@ function ProductForm({ categories, editingProduct, onCancel, onSubmit }) {
       description: form.description.trim(),
       basePrice: Number(form.basePrice),
       leadTimeHours: Number(form.leadTimeHours) || 48,
-      imageUrl: form.imageUrl.trim(),
+      image: form.image.trim(),
       sizeOptions: form.sizeOptions ?? [],
       tags: form.tags ?? [],
     });
@@ -125,7 +126,7 @@ function ProductForm({ categories, editingProduct, onCancel, onSubmit }) {
       </label>
       <label>
         <span>Image URL</span>
-        <input value={form.imageUrl} onChange={(event) => updateField('imageUrl', event.target.value)} placeholder="https://..." />
+        <input value={form.image} onChange={(event) => updateField('image', event.target.value)} placeholder="https://..." />
       </label>
       <label className={styles.checkbox}>
         <input checked={form.isAvailable} type="checkbox" onChange={(event) => updateField('isAvailable', event.target.checked)} />
@@ -264,11 +265,9 @@ export function AdminPage() {
                         value={order.status}
                         onChange={(event) =>
                           dispatch(
-                            updateOrder({
+                            updateOrderStatus({
                               orderId: order.id,
-                              updates: {
-                                status: event.target.value,
-                              },
+                              status: event.target.value,
                             }),
                           )
                         }
@@ -309,7 +308,7 @@ export function AdminPage() {
 
               return (
                 <article className={styles.productCard} key={product.id}>
-                  <img src={product.imageUrl || cakeCard} alt="" onError={(event) => { event.currentTarget.src = cakeCard; }} />
+                  <img src={product.image || cakeCard} alt="" onError={(event) => { event.currentTarget.src = cakeCard; }} />
                   <div>
                     <span>{category?.name ?? 'Uncategorized'}</span>
                     <h3>{product.name}</h3>
