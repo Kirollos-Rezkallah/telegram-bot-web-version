@@ -114,3 +114,14 @@
 .invoice button:hover {
   background: var(--color-primary-dark);
 }
+
+.invoice button:disabled {
+  cursor: default;
+  color: #247347;
+  background: #e7f8ea;
+  box-shadow: none;
+}
+
+.invoice button:disabled:hover {
+  background: #e7f8ea;
+}

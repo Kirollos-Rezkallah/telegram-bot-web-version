@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { FiCreditCard, FiFileText } from 'react-icons/fi';
+import { FiCheckCircle, FiCreditCard, FiFileText } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 
+import { getPaymentSummary } from '../../features/payments/paymentModel';
 import { formatCurrency } from '../../utils/formatters';
 import { PaymentSheet } from '../PaymentSheet/PaymentSheet';
 import styles from './InvoiceMessage.module.css';
@@ -9,6 +10,17 @@ import styles from './InvoiceMessage.module.css';
 export function InvoiceMessage({ invoice }) {
   const [paymentOpen, setPaymentOpen] = useState(false);
   const product = useSelector((state) => state.products.entities[invoice?.productId]);
+  const paidOrder = useSelector((state) =>
+    state.orders.ids
+      .map((id) => state.orders.entities[id])
+      .find(
+        (order) =>
+          order?.invoiceIssuedAt === invoice?.invoiceIssuedAt &&
+          order.productId === invoice?.productId &&
+          order.estimatedTotal === invoice?.total,
+      ),
+  );
+  const isPaid = Boolean(paidOrder);
 
   if (!invoice) {
     return null;
@@ -49,13 +61,13 @@ export function InvoiceMessage({ invoice }) {
           <strong>{formatCurrency(invoice.total)}</strong>
         </div>
 
-        <button type="button" onClick={() => setPaymentOpen(true)}>
-          <FiCreditCard aria-hidden="true" size={17} />
-          <span>Pay {formatCurrency(invoice.total)}</span>
+        <button disabled={isPaid} type="button" onClick={() => !isPaid && setPaymentOpen(true)}>
+          {isPaid ? <FiCheckCircle aria-hidden="true" size={17} /> : <FiCreditCard aria-hidden="true" size={17} />}
+          <span>{isPaid ? `Completed / ${getPaymentSummary(paidOrder)}` : `Pay ${formatCurrency(invoice.total)}`}</span>
         </button>
       </article>
 
-      {paymentOpen ? <PaymentSheet invoice={invoice} onClose={() => setPaymentOpen(false)} /> : null}
+      {paymentOpen && !isPaid ? <PaymentSheet invoice={invoice} onClose={() => setPaymentOpen(false)} /> : null}
     </>
   );
 }

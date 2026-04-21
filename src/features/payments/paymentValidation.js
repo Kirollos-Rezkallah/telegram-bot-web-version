@@ -1,4 +1,34 @@
-const onlyDigits = (value) => value.replace(/\D/g, '');
+export const onlyDigits = (value = '') => value.replace(/\D/g, '');
+
+export function formatCardNumber(value) {
+  return onlyDigits(value)
+    .slice(0, 19)
+    .replace(/(.{4})/g, '$1 ')
+    .trim();
+}
+
+export function formatExpiry(value) {
+  const digits = onlyDigits(value).slice(0, 4);
+
+  if (digits.length <= 2) {
+    return digits;
+  }
+
+  return `${digits.slice(0, 2)}/${digits.slice(2)}`;
+}
+
+export function formatCvv(value) {
+  return onlyDigits(value).slice(0, 3);
+}
+
+export function isCardPaymentComplete(fields) {
+  return (
+    onlyDigits(fields.cardNumber).length >= 16 &&
+    /^(0[1-9]|1[0-2])\/\d{2}$/.test(fields.expiry.trim()) &&
+    onlyDigits(fields.cvv).length === 3 &&
+    fields.cardholder.trim().length >= 2
+  );
+}
 
 export function validateCardPayment(fields) {
   const cardNumber = onlyDigits(fields.cardNumber);
@@ -6,7 +36,7 @@ export function validateCardPayment(fields) {
   const expiry = fields.expiry.trim();
   const cardholder = fields.cardholder.trim();
 
-  if (cardNumber.length < 12 || cardNumber.length > 19) {
+  if (cardNumber.length < 16 || cardNumber.length > 19) {
     return 'Enter a valid card number.';
   }
 
@@ -14,7 +44,17 @@ export function validateCardPayment(fields) {
     return 'Enter expiry as MM/YY.';
   }
 
-  if (cvv.length < 3 || cvv.length > 4) {
+  const [month, year] = expiry.split('/').map((part) => Number(part));
+  const expiryDate = new Date(2000 + year, month);
+  const currentMonth = new Date();
+  currentMonth.setDate(1);
+  currentMonth.setHours(0, 0, 0, 0);
+
+  if (expiryDate <= currentMonth) {
+    return 'Enter a future expiry date.';
+  }
+
+  if (cvv.length !== 3) {
     return 'Enter a valid CVV.';
   }
 
