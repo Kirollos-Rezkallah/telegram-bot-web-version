@@ -22,7 +22,7 @@ export function OrderSummary({ chat, onClose, order, product, tone = 'blue' }) {
       </div>
       {product && order ? (
         <>
-          <img src={product.imageUrl ?? cakeCard} alt="" />
+          <img src={product.imageUrl ?? cakeCard} alt="" onError={(event) => { event.currentTarget.src = cakeCard; }} />
           <div className={styles.content}>
             <span className={styles.kicker}>Current draft</span>
             <h3>{product.name}</h3>

@@ -25,7 +25,7 @@ export function CatalogMessage({ productIds = [] }) {
       {products.map((product) => (
         <article className={styles.card} key={product.id}>
           <div className={styles.media}>
-            <img src={product.imageUrl ?? cakeCard} alt="" />
+            <img src={product.imageUrl ?? cakeCard} alt="" onError={(event) => { event.currentTarget.src = cakeCard; }} />
           </div>
           <div className={styles.body}>
             <span className={styles.category}>{categories[product.categoryId]?.name ?? 'Confectionery'}</span>
