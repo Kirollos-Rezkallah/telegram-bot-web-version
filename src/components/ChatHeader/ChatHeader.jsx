@@ -1,15 +1,27 @@
-import { FiMoreVertical, FiPhone, FiSearch, FiX } from 'react-icons/fi';
+import { useState } from 'react';
+import { FiBellOff, FiDownload, FiImage, FiMoreVertical, FiPhone, FiSearch, FiTrash2, FiUser, FiX } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setMessageSearchOpen, setMessageSearchQuery, toggleMessageSearch } from '../../features/app/appSlice';
 import { Avatar } from '../Avatar/Avatar';
 import { IconButton } from '../IconButton/IconButton';
+import { MenuDropdown } from '../MenuDropdown/MenuDropdown';
 import styles from './ChatHeader.module.css';
 
 export function ChatHeader({ onProfileClick, title, subtitle, tone = 'rose' }) {
   const dispatch = useDispatch();
   const messageSearchQuery = useSelector((state) => state.app.messageSearchQuery);
   const messageSearchOpen = useSelector((state) => state.app.messageSearchOpen);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const actionItems = [
+    { icon: FiBellOff, label: 'Mute notifications' },
+    { icon: FiUser, label: 'View profile', onClick: onProfileClick },
+    { icon: FiImage, label: 'Set wallpaper' },
+    { icon: FiDownload, label: 'Export chat history' },
+    { icon: FiTrash2, label: 'Clear history', danger: true },
+    { icon: FiX, label: 'Delete chat', danger: true },
+  ];
 
   return (
     <header className={styles.header}>
@@ -43,9 +55,16 @@ export function ChatHeader({ onProfileClick, title, subtitle, tone = 'rose' }) {
         <IconButton label="Search messages" onClick={() => dispatch(toggleMessageSearch())}>
           <FiSearch aria-hidden="true" size={20} />
         </IconButton>
-        <IconButton label="Open details">
+        <div className={styles.menuSlot}>
+          <IconButton
+            label="Open chat menu"
+            onPointerDown={(event) => event.stopPropagation()}
+            onClick={() => setMenuOpen((value) => !value)}
+          >
           <FiMoreVertical aria-hidden="true" size={20} />
-        </IconButton>
+          </IconButton>
+          {menuOpen ? <MenuDropdown align="right" items={actionItems} onClose={() => setMenuOpen(false)} /> : null}
+        </div>
       </nav>
     </header>
   );

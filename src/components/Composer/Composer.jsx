@@ -1,21 +1,51 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react';
 import { FiMic, FiPaperclip, FiSend, FiSmile } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { selectActiveChat } from '../../features/chats/chatsSelectors';
+import { sendCustomerFile } from '../../features/conversation/sendCustomerFile';
 import { sendCustomerMessage } from '../../features/conversation/sendCustomerMessage';
 import { IconButton } from '../IconButton/IconButton';
 import styles from './Composer.module.css';
 
-const EMOJIS = ['\u{1F642}', '\u{1F382}', '\u{1F370}', '\u{1F9C1}', '\u2728', '\u2764\uFE0F'];
-
 export function Composer() {
   const dispatch = useDispatch();
   const activeChat = useSelector(selectActiveChat);
+  const emojiPanelRef = useRef(null);
+  const fileInputRef = useRef(null);
   const [messageText, setMessageText] = useState('');
   const [emojiOpen, setEmojiOpen] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const canSend = Boolean(activeChat) && messageText.trim().length > 0;
+
+  useEffect(() => {
+    if (!emojiOpen) {
+      return undefined;
+    }
+
+    const handlePointerDown = (event) => {
+      if (emojiPanelRef.current?.contains(event.target)) {
+        return;
+      }
+
+      setEmojiOpen(false);
+    };
+
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        setEmojiOpen(false);
+      }
+    };
+
+    window.addEventListener('pointerdown', handlePointerDown);
+    window.addEventListener('keydown', handleEscape);
+
+    return () => {
+      window.removeEventListener('pointerdown', handlePointerDown);
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [emojiOpen]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -28,6 +58,7 @@ export function Composer() {
 
     if (sentMessage) {
       setMessageText('');
+      setEmojiOpen(false);
     }
   };
 
@@ -41,38 +72,58 @@ export function Composer() {
     window.setTimeout(() => setIsRecording(false), 1600);
   };
 
+  const handleFileChange = (event) => {
+    const [file] = Array.from(event.target.files ?? []);
+
+    if (file) {
+      dispatch(sendCustomerFile(file));
+      setEmojiOpen(false);
+    }
+
+    event.target.value = '';
+  };
+
   return (
     <form className={styles.composer} onSubmit={handleSubmit}>
       <div className={styles.inputBar}>
-        <IconButton label="Attach file" className={styles.inlineButton}>
+        <IconButton label="Attach file" className={styles.inlineButton} onClick={() => fileInputRef.current?.click()}>
           <FiPaperclip aria-hidden="true" size={21} />
         </IconButton>
+        <input ref={fileInputRef} className={styles.fileInput} type="file" onChange={handleFileChange} />
         <label className={styles.inputWrap}>
           <span className="visually-hidden">Message</span>
           <input
             type="text"
-            placeholder={activeChat?.kind === 'bot' ? 'Message Cake Order Bot' : 'Message'}
+            placeholder="Write a message..."
             value={messageText}
             onChange={(event) => setMessageText(event.target.value)}
           />
         </label>
-        <IconButton label="Emoji" className={styles.inlineButton} onClick={() => setEmojiOpen((value) => !value)}>
+        <IconButton
+          label="Emoji"
+          className={styles.inlineButton}
+          onPointerDown={(event) => event.stopPropagation()}
+          onClick={(event) => {
+            event.stopPropagation();
+            setEmojiOpen((value) => !value);
+          }}
+        >
           <FiSmile aria-hidden="true" size={21} />
         </IconButton>
         {emojiOpen ? (
-          <div className={styles.emojiPanel}>
-            {EMOJIS.map((emoji) => (
-              <button
-                key={emoji}
-                type="button"
-                onClick={() => {
-                  setMessageText((value) => `${value}${emoji}`);
-                  setEmojiOpen(false);
-                }}
-              >
-                {emoji}
-              </button>
-            ))}
+          <div className={styles.emojiPanel} ref={emojiPanelRef}>
+            <EmojiPicker
+              emojiStyle={EmojiStyle.NATIVE}
+              height={386}
+              lazyLoadEmojis
+              onEmojiClick={(emojiData) => {
+                setMessageText((value) => `${value}${emojiData.emoji}`);
+              }}
+              previewConfig={{ showPreview: false }}
+              searchPlaceHolder="Search emoji"
+              theme={Theme.LIGHT}
+              width="100%"
+            />
           </div>
         ) : null}
       </div>

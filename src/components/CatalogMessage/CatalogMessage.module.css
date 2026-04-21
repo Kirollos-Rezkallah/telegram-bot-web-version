@@ -16,16 +16,20 @@
 
 .media {
   display: grid;
-  height: 112px;
+  height: 258px;
   overflow: hidden;
   place-items: center;
-  background: #f5f9fc;
+  background:
+    linear-gradient(180deg, rgba(245, 249, 252, 0.12), rgba(245, 249, 252, 0.02)),
+    #f5f9fc;
 }
 
 .media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: var(--catalog-image-position, 50% 58%);
+  transform: scale(1.01);
 }
 
 .body {
@@ -93,5 +97,9 @@
 @media (max-width: 760px) {
   .catalog {
     grid-template-columns: 1fr;
+  }
+
+  .media {
+    height: clamp(150px, 42vw, 220px);
   }
 }

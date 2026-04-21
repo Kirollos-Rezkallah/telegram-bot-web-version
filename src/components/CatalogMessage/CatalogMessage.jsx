@@ -24,15 +24,18 @@ export function CatalogMessage({ productIds = [] }) {
     <div className={styles.catalog}>
       {products.map((product) => (
         <article className={styles.card} key={product.id}>
-          <div className={styles.media}>
-            <img src={product.imageUrl ?? cakeCard} alt="" onError={(event) => { event.currentTarget.src = cakeCard; }} />
+          <div
+            className={styles.media}
+            style={{ '--catalog-image-position': product.imagePosition ?? '50% 58%' }}
+          >
+            <img src={product.image ?? cakeCard} alt="" onError={(event) => { event.currentTarget.src = cakeCard; }} />
           </div>
           <div className={styles.body}>
             <span className={styles.category}>{categories[product.categoryId]?.name ?? 'Confectionery'}</span>
             <h3>{product.name}</h3>
-            <p>{product.description}</p>
+            <p>{product.description || 'Custom confectionery item from the atelier catalog.'}</p>
             <div className={styles.footer}>
-              <strong>{formatCurrency(product.basePrice)}</strong>
+              <strong>{formatCurrency(product.basePrice || 0)}</strong>
               <button
                 type="button"
                 onClick={() => dispatch(sendCustomerMessage(product.name, { quickActionId: 'select_product', productId: product.id }))}
