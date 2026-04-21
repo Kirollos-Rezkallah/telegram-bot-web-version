@@ -15,14 +15,14 @@ export function OrderSummary({ chat, onClose, order, product, tone = 'blue' }) {
         </button>
       </header>
       <div className={styles.profile}>
-        <Avatar label={chat?.title ?? 'Cake Order Bot'} tone={tone} />
+        <Avatar className={styles.profileAvatar} label={chat?.title ?? 'Cake Order Bot'} tone={tone} />
         <h2>{chat?.title ?? 'Cake Order Bot'}</h2>
         <span>{chat?.statusText ?? 'bot is online'}</span>
         <p>Automated confectionery ordering assistant for catalog browsing, draft orders, and pickup planning.</p>
       </div>
       {product && order ? (
         <>
-          <img src={product.imageUrl ?? cakeCard} alt="" onError={(event) => { event.currentTarget.src = cakeCard; }} />
+          <img src={product.image ?? cakeCard} alt="" onError={(event) => { event.currentTarget.src = cakeCard; }} />
           <div className={styles.content}>
             <span className={styles.kicker}>Current draft</span>
             <h3>{product.name}</h3>

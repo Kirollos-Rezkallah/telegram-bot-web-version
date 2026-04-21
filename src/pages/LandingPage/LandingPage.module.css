@@ -1,9 +1,9 @@
 .page {
   display: grid;
-  min-height: 640px;
+  min-height: min(760px, calc(100vh - 50px));
   align-content: center;
-  gap: var(--space-10);
-  padding: clamp(var(--space-6), 6vw, 72px);
+  gap: clamp(var(--space-6), 4vw, var(--space-9));
+  padding: clamp(var(--space-5), 4vw, 54px);
   background:
     linear-gradient(115deg, rgba(51, 144, 236, 0.1), transparent 46%),
     linear-gradient(295deg, rgba(231, 132, 171, 0.12), transparent 52%),
@@ -34,7 +34,7 @@
 
 .header h1 {
   margin: 0;
-  font-size: clamp(34px, 5vw, 64px);
+  font-size: clamp(34px, 4vw, 56px);
   line-height: 1.03;
   letter-spacing: 0;
 }
@@ -83,6 +83,7 @@
 @media (max-width: 760px) {
   .page {
     min-height: 100vh;
+    overflow: auto;
   }
 
   .header {

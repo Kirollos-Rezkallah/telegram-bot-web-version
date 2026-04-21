@@ -6,6 +6,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   padding: 18px 16px;
+  scrollbar-gutter: stable;
 }
 
 .header {
@@ -43,6 +44,17 @@
   gap: 7px;
   padding: 10px 8px 14px;
   text-align: center;
+}
+
+.profile .profileAvatar {
+  --avatar-letter-color: #ffffff;
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.profile .profileAvatar span {
+  color: #ffffff;
+  font-size: 20px;
 }
 
 .profile h2 {

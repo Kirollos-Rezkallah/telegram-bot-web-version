@@ -26,10 +26,12 @@
   cursor: col-resize;
   transition:
     border-color 140ms ease,
-    background 140ms ease;
+    background 140ms ease,
+    width 140ms ease;
 }
 
 .resizeHandle:hover {
+  width: 7px;
   border-right-color: rgba(51, 144, 236, 0.45);
   background: rgba(51, 144, 236, 0.08);
 }
