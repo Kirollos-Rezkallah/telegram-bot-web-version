@@ -1,4 +1,5 @@
 .avatar {
+  --avatar-letter-color: #ffffff;
   display: grid;
   width: 46px;
   height: 46px;
@@ -6,10 +7,18 @@
   place-items: center;
   overflow: hidden;
   border-radius: 50%;
-  color: #ffffff;
+  color: var(--avatar-letter-color);
   font-size: 18px;
   font-weight: 700;
   box-shadow: inset 0 -14px 24px rgba(23, 33, 43, 0.12);
+}
+
+.avatar span {
+  color: var(--avatar-letter-color);
+  font-size: 18px;
+  line-height: 1;
+  text-shadow: 0 1px 1px rgba(23, 33, 43, 0.14);
+  text-transform: uppercase;
 }
 
 .avatar img {

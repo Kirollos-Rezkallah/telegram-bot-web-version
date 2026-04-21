@@ -22,10 +22,11 @@
 
 .compact {
   display: block;
-  width: min(1120px, 100%);
-  height: min(920px, 100vh);
-  min-height: 640px;
-  overflow: auto;
+  width: min(1120px, calc(100% - 48px));
+  height: auto;
+  max-height: calc(100vh - 48px);
+  min-height: 0;
+  overflow: hidden;
   border: 1px solid rgba(192, 207, 218, 0.85);
   border-radius: 12px;
   box-shadow: 0 22px 70px rgba(57, 78, 96, 0.22);

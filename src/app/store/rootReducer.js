@@ -9,7 +9,12 @@ import messagesReducer from '../../features/messages/messagesSlice';
 import ordersReducer from '../../features/orders/ordersSlice';
 import productsReducer from '../../features/products/productsSlice';
 
-export const rootReducer = combineReducers({
+export const hydrateClientState = (state) => ({
+  type: 'app/hydrateClientState',
+  payload: state,
+});
+
+const combinedReducer = combineReducers({
   admin: adminReducer,
   app: appReducer,
   botSession: botSessionReducer,
@@ -19,3 +24,19 @@ export const rootReducer = combineReducers({
   orders: ordersReducer,
   products: productsReducer,
 });
+
+export function rootReducer(state, action) {
+  if (action.type === 'app/hydrateClientState') {
+    return combinedReducer(
+      {
+        ...state,
+        ...action.payload,
+        admin: state?.admin,
+        app: state?.app,
+      },
+      action,
+    );
+  }
+
+  return combinedReducer(state, action);
+}
