@@ -9,6 +9,7 @@ import { updateOrderStatus } from '../../features/orders/updateOrderStatus';
 import { selectCategoriesList } from '../../features/categories/categoriesSelectors';
 import { selectCustomerOrders } from '../../features/orders/ordersSelectors';
 import { selectProductsList } from '../../features/products/productsSelectors';
+import { getPaymentSummary } from '../../features/payments/paymentModel';
 import { formatCurrency } from '../../utils/formatters';
 import cakeCard from '../../assets/cake-card.svg';
 import styles from './AdminPage.module.css';
@@ -257,6 +258,10 @@ export function AdminPage() {
                       <div>
                         <dt>Total</dt>
                         <dd>{formatCurrency(order.estimatedTotal)}</dd>
+                      </div>
+                      <div>
+                        <dt>Payment</dt>
+                        <dd>{getPaymentSummary(order) || 'Not set'}</dd>
                       </div>
                     </dl>
                     <label className={styles.statusSelect}>

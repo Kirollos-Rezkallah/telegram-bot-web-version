@@ -2,6 +2,7 @@ import { FiInbox } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 
 import { OrderStatusBadge } from '../OrderStatusBadge/OrderStatusBadge';
+import { getPaymentSummary } from '../../features/payments/paymentModel';
 import { formatCurrency } from '../../utils/formatters';
 import styles from './OrderHistoryMessage.module.css';
 
@@ -16,7 +17,7 @@ export function OrderHistoryMessage({ orderIds = [] }) {
       <article className={styles.empty}>
         <FiInbox aria-hidden="true" size={24} />
         <strong>No orders yet</strong>
-        <p>Your confirmed confectionery orders will appear here after you place one with Cake Order Bot.</p>
+        <p>Your paid or pickup-payment confectionery orders will appear here after you place one with Cake Order Bot.</p>
       </article>
     );
   }
@@ -47,6 +48,10 @@ export function OrderHistoryMessage({ orderIds = [] }) {
               <div>
                 <dt>Total</dt>
                 <dd>{formatCurrency(order.estimatedTotal)}</dd>
+              </div>
+              <div>
+                <dt>Payment</dt>
+                <dd>{getPaymentSummary(order) || 'Not set'}</dd>
               </div>
             </dl>
           </article>

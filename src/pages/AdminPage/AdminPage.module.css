@@ -157,7 +157,7 @@
 
 .orderCard {
   display: grid;
-  grid-template-columns: minmax(220px, 1.2fr) minmax(420px, 2fr) 190px;
+  grid-template-columns: minmax(220px, 1.1fr) minmax(500px, 2.2fr) 190px;
   gap: 14px;
   align-items: center;
   padding: 14px;
@@ -198,7 +198,7 @@
 
 .orderMeta {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 8px;
   margin: 0;
 }
