@@ -15,13 +15,25 @@ const messagesSlice = createSlice({
         state.entities[message.id] = message;
         state.idsByChatId[message.chatId] = [...(state.idsByChatId[message.chatId] ?? []), message.id];
       },
-      prepare({ attachment, author = 'customer', chatId, orderIds, orderReview, productIds, status = 'sent', text, type = 'text' }) {
+      prepare({
+        attachment,
+        author = 'customer',
+        chatId,
+        invoice,
+        orderIds,
+        orderReview,
+        productIds,
+        status = 'sent',
+        text,
+        type = 'text',
+      }) {
         return {
           payload: {
             id: createId('msg'),
             chatId,
             attachment,
             author,
+            invoice,
             orderIds,
             orderReview,
             productIds,

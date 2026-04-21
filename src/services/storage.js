@@ -10,6 +10,7 @@ const SUPPORTED_BOT_STEPS = new Set([
   'entering_pickup_date',
   'entering_comment',
   'reviewing_order',
+  'awaiting_payment',
   'order_confirmed',
   'viewing_orders',
   'help',

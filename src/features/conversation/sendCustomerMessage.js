@@ -4,7 +4,7 @@ import { runCakeOrderBot } from '../botSession/botEngine';
 import { markChatRead, updateChatPreview } from '../chats/chatsSlice';
 import { selectActiveChat } from '../chats/chatsSelectors';
 import { addMessage } from '../messages/messagesSlice';
-import { createConfirmedOrder, updateOrder } from '../orders/ordersSlice';
+import { updateOrder } from '../orders/ordersSlice';
 import { formatChatTimestamp } from '../../utils/dateLabels';
 
 export function sendCustomerMessage(rawText, options = {}) {
@@ -55,33 +55,6 @@ export function sendCustomerMessage(rawText, options = {}) {
         state: getState(),
       });
 
-      let createdOrder = null;
-
-      if (botResult.createOrder) {
-        const draftOrderId = getState().orders.draftOrderId;
-        const createOrderAction = createConfirmedOrder(botResult.createOrder);
-        dispatch(createOrderAction);
-        createdOrder = createOrderAction.payload;
-
-        if (draftOrderId) {
-          dispatch(
-            updateOrder({
-              orderId: draftOrderId,
-              updates: {
-                productId: null,
-                quantity: 1,
-                pickupDate: '',
-                deliveryDate: '',
-                comment: '',
-                inscription: '',
-                estimatedTotal: 0,
-                status: 'Draft',
-              },
-            }),
-          );
-        }
-      }
-
       if (botResult.orderUpdates) {
         const orderId = getState().orders.draftOrderId;
 
@@ -104,7 +77,8 @@ export function sendCustomerMessage(rawText, options = {}) {
         const botMessageAction = addMessage({
           author: 'assistant',
           chatId: activeChat.id,
-          orderIds: botMessage.orderIds ?? (botMessage.type === 'order_history' && createdOrder ? [createdOrder.id] : undefined),
+          invoice: botMessage.invoice,
+          orderIds: botMessage.orderIds,
           orderReview: botMessage.orderReview,
           productIds: botMessage.productIds,
           status: 'delivered',

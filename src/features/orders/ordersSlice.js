@@ -59,7 +59,18 @@ const ordersSlice = createSlice({
         state.ids.push(order.id);
         state.entities[order.id] = order;
       },
-      prepare({ chatId, comment = '', pickupDate, productId, quantity, total }) {
+      prepare({
+        chatId,
+        comment = '',
+        invoiceIssuedAt,
+        paidAt,
+        paymentMethod,
+        paymentStatus,
+        pickupDate,
+        productId,
+        quantity,
+        total,
+      }) {
         const now = new Date().toISOString();
 
         return {
@@ -74,6 +85,10 @@ const ordersSlice = createSlice({
             comment,
             inscription: comment,
             estimatedTotal: total,
+            invoiceIssuedAt: invoiceIssuedAt ?? now,
+            paidAt,
+            paymentMethod,
+            paymentStatus,
             createdAt: now,
             updatedAt: now,
           },

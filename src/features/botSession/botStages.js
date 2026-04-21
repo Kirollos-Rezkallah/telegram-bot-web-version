@@ -8,6 +8,7 @@ export const BOT_STAGES = {
   ENTERING_PICKUP_DATE: 'entering_pickup_date',
   ENTERING_COMMENT: 'entering_comment',
   REVIEWING_ORDER: 'reviewing_order',
+  AWAITING_PAYMENT: 'awaiting_payment',
   ORDER_CONFIRMED: 'order_confirmed',
   VIEWING_ORDERS: 'viewing_orders',
   HELP: 'help',

@@ -96,9 +96,28 @@ function buildOrderReviewMessage({ draft, product }) {
   };
 }
 
+function buildInvoiceMessage({ draft, product }) {
+  const total = product.basePrice * draft.quantity;
+
+  return {
+    text: `Invoice issued for ${product.name}. Tap Pay to choose Card, SBP, or Pay on pickup.`,
+    type: 'invoice',
+    invoice: {
+      title: 'Anastasia Atelier invoice',
+      description: 'Confectionery order payment',
+      productId: product.id,
+      quantity: draft.quantity,
+      pickupDate: draft.pickupDate,
+      comment: draft.comment,
+      total,
+      invoiceIssuedAt: new Date().toISOString(),
+    },
+  };
+}
+
 function buildOrderHistoryMessage(orders) {
   return {
-    text: orders.length ? 'Here are your customer orders.' : 'You do not have completed orders yet.',
+    text: orders.length ? 'Here are your customer orders.' : 'You do not have confirmed orders yet.',
     type: 'order_history',
     orderIds: orders.map((order) => order.id),
   };
@@ -223,24 +242,20 @@ export function runCakeOrderBot({ input, quickActionId, state }) {
     }
 
     return {
-      messages: ['Order created successfully. The atelier received it and it starts in status New. You can check it anytime in My orders.'],
+      messages: [buildInvoiceMessage({ draft, product })],
       botSession: {
-        currentStep: BOT_STAGES.IDLE,
-        availableActions: MAIN_BOT_ACTIONS,
-        draftOrder: {
-          productId: null,
-          quantity: null,
-          pickupDate: '',
-          comment: '',
-        },
+        currentStep: BOT_STAGES.AWAITING_PAYMENT,
+        availableActions: [],
       },
-      createOrder: {
-        chatId: BOT_CHAT_ID,
-        productId: draft.productId,
-        quantity: draft.quantity,
-        pickupDate: draft.pickupDate,
-        comment: draft.comment,
-        total: product.basePrice * draft.quantity,
+    };
+  }
+
+  if (botSession.currentStep === BOT_STAGES.AWAITING_PAYMENT) {
+    return {
+      messages: ['Please use the Pay button in the invoice message to complete this order, or tap Make order to start again.'],
+      botSession: {
+        currentStep: BOT_STAGES.AWAITING_PAYMENT,
+        availableActions: [],
       },
     };
   }
@@ -374,7 +389,7 @@ export function runCakeOrderBot({ input, quickActionId, state }) {
 
   if (botSession.currentStep === BOT_STAGES.REVIEWING_ORDER) {
     return {
-      messages: ['Please tap Confirm order to place it, or Edit order to restart the draft.'],
+      messages: ['Please tap Confirm order to receive the payment invoice, or Edit order to restart the draft.'],
       botSession: {
         currentStep: BOT_STAGES.REVIEWING_ORDER,
         availableActions: ORDER_REVIEW_ACTIONS,
