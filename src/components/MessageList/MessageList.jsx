@@ -28,9 +28,9 @@ export function MessageList({ messages }) {
   return (
     <div className={styles.scroller} ref={scrollerRef}>
       <div className={styles.history}>
-        <div className={styles.dayDivider}>Today</div>
-        {searchQuery ? <div className={styles.searchInfo}>{visibleMessages.length} results</div> : null}
-        {visibleMessages.length === 0 && searchQuery ? <p className={styles.empty}>No matching messages</p> : null}
+        <div className={styles.dayDivider}>Сегодня</div>
+        {searchQuery ? <div className={styles.searchInfo}>{visibleMessages.length} результатов</div> : null}
+        {visibleMessages.length === 0 && searchQuery ? <p className={styles.empty}>Сообщения не найдены</p> : null}
         {visibleMessages.map((message, index) => {
           const previous = visibleMessages[index - 1];
           const next = visibleMessages[index + 1];

@@ -15,12 +15,12 @@ export function ChatHeader({ onProfileClick, title, subtitle, tone = 'rose' }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const actionItems = [
-    { icon: FiBellOff, label: 'Mute notifications' },
-    { icon: FiUser, label: 'View profile', onClick: onProfileClick },
-    { icon: FiImage, label: 'Set wallpaper' },
-    { icon: FiDownload, label: 'Export chat history' },
-    { icon: FiTrash2, label: 'Clear history', danger: true },
-    { icon: FiX, label: 'Delete chat', danger: true },
+    { icon: FiBellOff, label: 'Отключить уведомления' },
+    { icon: FiUser, label: 'Открыть профиль', onClick: onProfileClick },
+    { icon: FiImage, label: 'Выбрать обои' },
+    { icon: FiDownload, label: 'Экспортировать историю чата' },
+    { icon: FiTrash2, label: 'Очистить историю', danger: true },
+    { icon: FiX, label: 'Удалить чат', danger: true },
   ];
 
   return (
@@ -35,29 +35,29 @@ export function ChatHeader({ onProfileClick, title, subtitle, tone = 'rose' }) {
       {messageSearchOpen ? (
         <label className={styles.searchBox}>
           <FiSearch aria-hidden="true" size={16} />
-          <span className="visually-hidden">Search messages</span>
+          <span className="visually-hidden">Поиск сообщений</span>
           <input
             autoFocus
             type="search"
-            placeholder="Search in chat"
+            placeholder="Поиск по чату"
             value={messageSearchQuery}
             onChange={(event) => dispatch(setMessageSearchQuery(event.target.value))}
           />
-          <button type="button" onClick={() => dispatch(setMessageSearchOpen(false))} aria-label="Close message search">
+          <button type="button" onClick={() => dispatch(setMessageSearchOpen(false))} aria-label="Закрыть поиск по чату">
             <FiX aria-hidden="true" size={15} />
           </button>
         </label>
       ) : null}
-      <nav className={styles.actions} aria-label="Chat actions">
-        <IconButton label="Call">
+      <nav className={styles.actions} aria-label="Действия чата">
+        <IconButton label="Позвонить">
           <FiPhone aria-hidden="true" size={20} />
         </IconButton>
-        <IconButton label="Search messages" onClick={() => dispatch(toggleMessageSearch())}>
+        <IconButton label="Поиск сообщений" onClick={() => dispatch(toggleMessageSearch())}>
           <FiSearch aria-hidden="true" size={20} />
         </IconButton>
         <div className={styles.menuSlot}>
           <IconButton
-            label="Open chat menu"
+            label="Открыть меню чата"
             onPointerDown={(event) => event.stopPropagation()}
             onClick={() => setMenuOpen((value) => !value)}
           >

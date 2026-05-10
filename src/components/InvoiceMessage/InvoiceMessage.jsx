@@ -34,7 +34,7 @@ export function InvoiceMessage({ invoice }) {
             <FiFileText aria-hidden="true" size={21} />
           </span>
           <div>
-            <span>Invoice</span>
+            <span>Счет</span>
             <h3>{invoice.title}</h3>
           </div>
         </header>
@@ -43,27 +43,27 @@ export function InvoiceMessage({ invoice }) {
 
         <dl>
           <div>
-            <dt>Item</dt>
-            <dd>{product?.name ?? 'Confectionery order'}</dd>
+            <dt>Позиция</dt>
+            <dd>{product?.name ?? 'Кондитерский заказ'}</dd>
           </div>
           <div>
-            <dt>Quantity</dt>
+            <dt>Количество</dt>
             <dd>{invoice.quantity}</dd>
           </div>
           <div>
-            <dt>Pickup</dt>
+            <dt>Получение</dt>
             <dd>{invoice.pickupDate}</dd>
           </div>
         </dl>
 
         <div className={styles.total}>
-          <span>Total</span>
+          <span>Итого</span>
           <strong>{formatCurrency(invoice.total)}</strong>
         </div>
 
         <button disabled={isPaid} type="button" onClick={() => !isPaid && setPaymentOpen(true)}>
           {isPaid ? <FiCheckCircle aria-hidden="true" size={17} /> : <FiCreditCard aria-hidden="true" size={17} />}
-          <span>{isPaid ? `Completed / ${getPaymentSummary(paidOrder)}` : `Pay ${formatCurrency(invoice.total)}`}</span>
+          <span>{isPaid ? `Оплачено / ${getPaymentSummary(paidOrder)}` : `Оплатить ${formatCurrency(invoice.total)}`}</span>
         </button>
       </article>
 

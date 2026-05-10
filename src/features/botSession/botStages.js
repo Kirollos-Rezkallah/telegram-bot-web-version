@@ -17,29 +17,29 @@ export const BOT_STAGES = {
 export const MAIN_BOT_ACTIONS = [
   {
     id: 'view_catalog',
-    label: 'View catalog',
+    label: 'Каталог',
   },
   {
     id: 'make_order',
-    label: 'Make order',
+    label: 'Оформить заказ',
   },
   {
     id: 'my_orders',
-    label: 'My orders',
+    label: 'Мои заказы',
   },
   {
     id: 'help',
-    label: 'Help',
+    label: 'Помощь',
   },
 ];
 
 export const ORDER_REVIEW_ACTIONS = [
   {
     id: 'confirm_order',
-    label: 'Confirm order',
+    label: 'Перейти к оплате',
   },
   {
     id: 'make_order',
-    label: 'Edit order',
+    label: 'Изменить заказ',
   },
 ];

@@ -11,27 +11,27 @@ export function LandingPage() {
           <img src={pastryMark} alt="" />
           <div>
             <p>Anastasia Atelier</p>
-            <h1>Confectionery ordering in a Telegram-style workspace</h1>
+            <h1>Заказ кондитерских изделий в рабочем пространстве в стиле Telegram</h1>
           </div>
         </header>
 
-        <section className={styles.roles} aria-label="Choose application area">
+        <section className={styles.roles} aria-label="Выбор раздела приложения">
           <RoleEntryCard
-            eyebrow="Customer"
-            title="Open assistant chat"
-            description="A premium messenger flow for choosing cakes, fillings, delivery dates, and finishing an order."
+            eyebrow="Клиент"
+            title="Открыть чат с помощником"
+            description="Продуманный сценарий в формате мессенджера для выбора тортов, начинок, даты получения и оформления заказа."
             to="/app"
-            actionLabel="Enter chat"
+            actionLabel="Перейти в чат"
           >
             <span className={styles.chatIcon} />
           </RoleEntryCard>
 
           <RoleEntryCard
-            eyebrow="Admin"
-            title="Manage incoming orders"
-            description="A focused operations panel for future catalog, chat, order, and production status workflows."
+            eyebrow="Админ"
+            title="Управлять входящими заказами"
+            description="Рабочая панель для обработки заказов, управления каталогом и контроля производственных статусов."
             to="/admin"
-            actionLabel="Open admin"
+            actionLabel="Открыть админку"
           >
             <span className={styles.adminIcon} />
           </RoleEntryCard>

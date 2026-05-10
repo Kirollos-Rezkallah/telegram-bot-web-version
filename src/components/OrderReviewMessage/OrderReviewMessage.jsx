@@ -16,29 +16,29 @@ export function OrderReviewMessage({ review }) {
       <div className={styles.header}>
         <FiShoppingBag aria-hidden="true" size={18} />
         <div>
-          <span>Order review</span>
+          <span>Проверка заказа</span>
           <h3>{product.name}</h3>
         </div>
       </div>
       <dl className={styles.details}>
         <div>
           <FiPackage aria-hidden="true" size={16} />
-          <dt>Quantity</dt>
+          <dt>Количество</dt>
           <dd>{review.quantity}</dd>
         </div>
         <div>
           <FiCalendar aria-hidden="true" size={16} />
-          <dt>Pickup</dt>
+          <dt>Получение</dt>
           <dd>{review.pickupDate}</dd>
         </div>
         <div>
           <FiMessageSquare aria-hidden="true" size={16} />
-          <dt>Comment</dt>
-          <dd>{review.comment || 'No comment'}</dd>
+          <dt>Комментарий</dt>
+          <dd>{review.comment || 'Без комментария'}</dd>
         </div>
       </dl>
       <div className={styles.total}>
-        <span>Total</span>
+        <span>Итого</span>
         <strong>{formatCurrency(review.total)}</strong>
       </div>
     </article>

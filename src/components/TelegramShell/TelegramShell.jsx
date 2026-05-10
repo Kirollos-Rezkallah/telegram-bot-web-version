@@ -57,7 +57,7 @@ export function TelegramShell({ sidebar, children, details }) {
       <button
         className={`${styles.resizeHandle} ${styles.sidebarHandle}`}
         type="button"
-        aria-label="Resize sidebar"
+        aria-label="Изменить ширину боковой панели"
         onPointerDown={startDrag('sidebar')}
       />
       <section className={styles.chat}>{children}</section>
@@ -66,7 +66,7 @@ export function TelegramShell({ sidebar, children, details }) {
           <button
             className={`${styles.resizeHandle} ${styles.detailsHandle}`}
             type="button"
-            aria-label="Resize info panel"
+            aria-label="Изменить ширину информационной панели"
             onPointerDown={startDrag('details')}
           />
           <aside className={styles.details} style={{ width: detailPanelWidth }}>{details}</aside>

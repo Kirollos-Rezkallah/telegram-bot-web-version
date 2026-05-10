@@ -87,11 +87,11 @@ function ProductForm({ categories, editingProduct, onCancel, onSubmit }) {
     <form className={styles.productForm} onSubmit={handleSubmit}>
       <div className={styles.formGrid}>
         <label>
-          <span>Name</span>
-          <input required value={form.name} onChange={(event) => updateField('name', event.target.value)} placeholder="Dessert name" />
+          <span>Название</span>
+          <input required value={form.name} onChange={(event) => updateField('name', event.target.value)} placeholder="Название десерта" />
         </label>
         <label>
-          <span>Price</span>
+          <span>Цена</span>
           <input
             required
             min="0"
@@ -102,7 +102,7 @@ function ProductForm({ categories, editingProduct, onCancel, onSubmit }) {
           />
         </label>
         <label>
-          <span>Category</span>
+          <span>Категория</span>
           <select required value={form.categoryId} onChange={(event) => updateField('categoryId', event.target.value)}>
             {categories.map((category) => (
               <option key={category.id} value={category.id}>
@@ -112,7 +112,7 @@ function ProductForm({ categories, editingProduct, onCancel, onSubmit }) {
           </select>
         </label>
         <label>
-          <span>Lead time, hours</span>
+          <span>Срок подготовки, часы</span>
           <input
             min="1"
             type="number"
@@ -122,24 +122,24 @@ function ProductForm({ categories, editingProduct, onCancel, onSubmit }) {
         </label>
       </div>
       <label>
-        <span>Description</span>
+        <span>Описание</span>
         <textarea required value={form.description} onChange={(event) => updateField('description', event.target.value)} rows={3} />
       </label>
       <label>
-        <span>Image URL</span>
+        <span>Ссылка на изображение</span>
         <input value={form.image} onChange={(event) => updateField('image', event.target.value)} placeholder="https://..." />
       </label>
       <label className={styles.checkbox}>
         <input checked={form.isAvailable} type="checkbox" onChange={(event) => updateField('isAvailable', event.target.checked)} />
-        <span>Available in customer catalog</span>
+        <span>Показывать в клиентском каталоге</span>
       </label>
       <div className={styles.formActions}>
         <button className={styles.primaryButton} type="submit">
-          {editingProduct ? 'Save product' : 'Add product'}
+          {editingProduct ? 'Сохранить товар' : 'Добавить товар'}
         </button>
         {editingProduct ? (
           <button className={styles.secondaryButton} type="button" onClick={onCancel}>
-            Cancel
+            Отмена
           </button>
         ) : null}
       </div>
@@ -183,39 +183,39 @@ export function AdminPage() {
         <Link className={styles.backLink} to="/">
           Anastasia Atelier
         </Link>
-        <nav aria-label="Admin navigation">
-          <a href="#overview">Overview</a>
-          <a href="#orders">Orders</a>
-          <a href="#catalog">Catalog</a>
+        <nav aria-label="Навигация админки">
+          <a href="#overview">Обзор</a>
+          <a href="#orders">Заказы</a>
+          <a href="#catalog">Каталог</a>
         </nav>
         <Link className={styles.chatLink} to="/app">
-          Open customer app
+          Открыть клиентское приложение
         </Link>
       </aside>
 
       <section className={styles.content}>
         <header className={styles.header} id="overview">
           <div>
-            <p>Admin workspace</p>
-            <h1>Confectionery operations</h1>
+            <p>Рабочее пространство администратора</p>
+            <h1>Операции кондитерского ателье</h1>
           </div>
         </header>
 
-        <section className={styles.stats} aria-label="Operational summary">
+        <section className={styles.stats} aria-label="Операционная сводка">
           <article>
-            <span>Active orders</span>
+            <span>Активные заказы</span>
             <strong>{stats.activeOrders}</strong>
           </article>
           <article>
-            <span>Completed</span>
+            <span>Завершено</span>
             <strong>{stats.completedOrders}</strong>
           </article>
           <article>
-            <span>Available products</span>
+            <span>Доступные товары</span>
             <strong>{stats.productsAvailable}</strong>
           </article>
           <article>
-            <span>Total revenue</span>
+            <span>Общая выручка</span>
             <strong>{formatCurrency(stats.revenue)}</strong>
           </article>
         </section>
@@ -223,13 +223,13 @@ export function AdminPage() {
         <section className={styles.panel} id="orders">
           <header className={styles.panelHeader}>
             <div>
-              <h2>Orders</h2>
-              <span>Real customer orders created in Cake Order Bot</span>
+              <h2>Заказы</h2>
+              <span>Реальные клиентские заказы, созданные через бота</span>
             </div>
           </header>
 
           {orders.length === 0 ? (
-            <p className={styles.emptyState}>No confirmed customer orders yet. Create one in Cake Order Bot to see it here.</p>
+            <p className={styles.emptyState}>Подтвержденных клиентских заказов пока нет. Создайте заказ в боте, чтобы увидеть его здесь.</p>
           ) : (
             <div className={styles.ordersList}>
               {orders.map((order) => {
@@ -239,33 +239,33 @@ export function AdminPage() {
                   <article className={styles.orderCard} key={order.id}>
                     <div className={styles.orderMain}>
                       <span>#{getShortId(order.id)}</span>
-                      <h3>{product?.name ?? 'Deleted product'}</h3>
-                      <p>{order.comment || 'No customer comment'}</p>
+                      <h3>{product?.name ?? 'Удаленный товар'}</h3>
+                      <p>{order.comment || 'Без комментария клиента'}</p>
                     </div>
                     <dl className={styles.orderMeta}>
                       <div>
-                        <dt>Qty</dt>
+                        <dt>Кол-во</dt>
                         <dd>{order.quantity}</dd>
                       </div>
                       <div>
-                        <dt>Pickup</dt>
+                        <dt>Получение</dt>
                         <dd>{order.pickupDate}</dd>
                       </div>
                       <div>
-                        <dt>Created</dt>
+                        <dt>Создан</dt>
                         <dd>{formatDateTime(order.createdAt)}</dd>
                       </div>
                       <div>
-                        <dt>Total</dt>
+                        <dt>Итого</dt>
                         <dd>{formatCurrency(order.estimatedTotal)}</dd>
                       </div>
                       <div>
-                        <dt>Payment</dt>
-                        <dd>{getPaymentSummary(order) || 'Not set'}</dd>
+                        <dt>Оплата</dt>
+                        <dd>{getPaymentSummary(order) || 'Не указано'}</dd>
                       </div>
                     </dl>
                     <label className={styles.statusSelect}>
-                      <span>Status</span>
+                      <span>Статус</span>
                       <select
                         value={order.status}
                         onChange={(event) =>
@@ -294,8 +294,8 @@ export function AdminPage() {
         <section className={styles.panel} id="catalog">
           <header className={styles.panelHeader}>
             <div>
-              <h2>Catalog</h2>
-              <span>Changes here update the customer catalog and bot flow</span>
+              <h2>Каталог</h2>
+              <span>Изменения здесь сразу отражаются в клиентском каталоге и сценарии бота</span>
             </div>
           </header>
 
@@ -315,21 +315,21 @@ export function AdminPage() {
                 <article className={styles.productCard} key={product.id}>
                   <img src={product.image || cakeCard} alt="" onError={(event) => { event.currentTarget.src = cakeCard; }} />
                   <div>
-                    <span>{category?.name ?? 'Uncategorized'}</span>
+                    <span>{category?.name ?? 'Без категории'}</span>
                     <h3>{product.name}</h3>
                     <p>{product.description}</p>
                     <strong>{formatCurrency(product.basePrice)}</strong>
                   </div>
                   <div className={styles.productActions}>
-                    <button type="button" onClick={() => setEditingProductId(product.id)} aria-label={`Edit ${product.name}`}>
+                    <button type="button" onClick={() => setEditingProductId(product.id)} aria-label={`Редактировать ${product.name}`}>
                       <FiEdit2 aria-hidden="true" size={16} />
                     </button>
-                    <button type="button" onClick={() => dispatch(deleteProduct(product.id))} aria-label={`Delete ${product.name}`}>
+                    <button type="button" onClick={() => dispatch(deleteProduct(product.id))} aria-label={`Удалить ${product.name}`}>
                       <FiTrash2 aria-hidden="true" size={16} />
                     </button>
                   </div>
                   <span className={product.isAvailable ? styles.available : styles.hidden}>
-                    {product.isAvailable ? 'Available' : 'Hidden'}
+                    {product.isAvailable ? 'Доступен' : 'Скрыт'}
                   </span>
                 </article>
               );

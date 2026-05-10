@@ -7,7 +7,7 @@ import { formatFileSize } from '../../utils/formatters';
 function getFileExtension(fileName = '') {
   const extension = fileName.split('.').pop();
 
-  return extension && extension !== fileName ? extension.toUpperCase() : 'FILE';
+  return extension && extension !== fileName ? extension.toUpperCase() : 'ФАЙЛ';
 }
 
 export function sendCustomerFile(file) {
@@ -21,7 +21,7 @@ export function sendCustomerFile(file) {
     const attachment = {
       extension: getFileExtension(file.name),
       mimeType: file.type || 'application/octet-stream',
-      name: file.name || 'Uploaded file',
+      name: file.name || 'Загруженный файл',
       size: file.size || 0,
       sizeLabel: formatFileSize(file.size || 0),
     };
@@ -41,7 +41,7 @@ export function sendCustomerFile(file) {
       updateChatPreview({
         chatId: activeChat.id,
         lastMessageAt: messageAction.payload.createdAt,
-        subtitle: `File: ${attachment.name}`,
+        subtitle: `Файл: ${attachment.name}`,
         timestamp: formatChatTimestamp(messageAction.payload.createdAt),
       }),
     );

@@ -7,13 +7,13 @@ import { PAYMENT_METHODS, PAYMENT_STATUSES, paymentMethodLabels } from './paymen
 import { formatChatTimestamp } from '../../utils/dateLabels';
 
 function buildConfirmationText({ method, order, product }) {
-  const item = product ? ` for ${product.name}` : '';
+  const item = product ? ` — ${product.name}` : '';
 
   if (method === PAYMENT_METHODS.PICKUP) {
-    return `Order #${order.id.replace('order-', '').slice(0, 8).toUpperCase()} is accepted${item}. Payment is pending and will be made on pickup. You can track it anytime in My orders.`;
+    return `Заказ №${order.id.replace('order-', '').slice(0, 8).toUpperCase()} принят${item}. Оплата отмечена как ожидаемая и будет произведена при получении. Следить за заказом можно в разделе «Мои заказы».`;
   }
 
-  return `Payment received via ${paymentMethodLabels[method]} and order #${order.id.replace('order-', '').slice(0, 8).toUpperCase()} is created${item}. The atelier received it and it starts in status New.`;
+  return `Оплата через способ «${paymentMethodLabels[method]}» получена. Заказ №${order.id.replace('order-', '').slice(0, 8).toUpperCase()} оформлен${item}. Мы получили его в работу, стартовый статус — «Новый».`;
 }
 
 export function finalizeInvoicePayment({ invoice, method }) {

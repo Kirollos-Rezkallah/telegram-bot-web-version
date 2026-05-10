@@ -10,14 +10,14 @@ export const PAYMENT_STATUSES = {
 };
 
 export const paymentMethodLabels = {
-  [PAYMENT_METHODS.CARD]: 'Card',
-  [PAYMENT_METHODS.SBP]: 'SBP',
-  [PAYMENT_METHODS.PICKUP]: 'Pay on pickup',
+  [PAYMENT_METHODS.CARD]: 'Карта',
+  [PAYMENT_METHODS.SBP]: 'СБП',
+  [PAYMENT_METHODS.PICKUP]: 'Оплата при получении',
 };
 
 export const paymentStatusLabels = {
-  [PAYMENT_STATUSES.PAID]: 'Paid',
-  [PAYMENT_STATUSES.PENDING]: 'Pending',
+  [PAYMENT_STATUSES.PAID]: 'Оплачено',
+  [PAYMENT_STATUSES.PENDING]: 'Ожидает оплаты',
 };
 
 export function getPaymentSummary({ method, paymentMethod, paymentStatus, status }) {

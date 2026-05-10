@@ -9,43 +9,43 @@ export function OrderSummary({ chat, onClose, order, product, tone = 'blue' }) {
   return (
     <section className={styles.panel}>
       <header className={styles.header}>
-        <strong>Info</strong>
-        <button type="button" onClick={onClose} aria-label="Close info panel">
+        <strong>Информация</strong>
+        <button type="button" onClick={onClose} aria-label="Закрыть боковую панель">
           <FiX aria-hidden="true" size={20} />
         </button>
       </header>
       <div className={styles.profile}>
-        <Avatar className={styles.profileAvatar} label={chat?.title ?? 'Cake Order Bot'} tone={tone} />
-        <h2>{chat?.title ?? 'Cake Order Bot'}</h2>
-        <span>{chat?.statusText ?? 'bot is online'}</span>
-        <p>Automated confectionery ordering assistant for catalog browsing, draft orders, and pickup planning.</p>
+        <Avatar className={styles.profileAvatar} label={chat?.title ?? 'Бот заказов тортов'} tone={tone} />
+        <h2>{chat?.title ?? 'Бот заказов тортов'}</h2>
+        <span>{chat?.statusText ?? 'бот онлайн'}</span>
+        <p>Автоматический помощник для просмотра каталога, сборки черновика заказа и планирования получения.</p>
       </div>
       {product && order ? (
         <>
           <img src={product.image ?? cakeCard} alt="" onError={(event) => { event.currentTarget.src = cakeCard; }} />
           <div className={styles.content}>
-            <span className={styles.kicker}>Current draft</span>
+            <span className={styles.kicker}>Текущий черновик</span>
             <h3>{product.name}</h3>
             <p className={styles.description}>{product.description}</p>
             <dl>
               <div>
                 <FiTag aria-hidden="true" size={16} />
-                <dt>Size</dt>
-                <dd>{order.size || 'Auto'}</dd>
+                <dt>Размер</dt>
+                <dd>{order.size || 'Авто'}</dd>
               </div>
               <div>
                 <FiClock aria-hidden="true" size={16} />
-                <dt>Pickup</dt>
-                <dd>{order.pickupDate || order.deliveryDate || 'Not set'}</dd>
+                <dt>Получение</dt>
+                <dd>{order.pickupDate || order.deliveryDate || 'Не указано'}</dd>
               </div>
               <div>
                 <FiPackage aria-hidden="true" size={16} />
-                <dt>Status</dt>
-                <dd>{order.status}</dd>
+                <dt>Статус</dt>
+                <dd>{order.status === 'draft' || order.status === 'Draft' ? 'Черновик' : order.status}</dd>
               </div>
               <div>
                 <FiInfo aria-hidden="true" size={16} />
-                <dt>Total</dt>
+                <dt>Итого</dt>
                 <dd>{formatCurrency(order.estimatedTotal)}</dd>
               </div>
             </dl>
@@ -54,8 +54,8 @@ export function OrderSummary({ chat, onClose, order, product, tone = 'blue' }) {
       ) : (
         <div className={styles.noDraft}>
           <FiShoppingBag aria-hidden="true" size={24} />
-          <strong>No active draft</strong>
-          <p>Use Make order or View catalog to start a new confectionery order.</p>
+          <strong>Нет активного черновика</strong>
+          <p>Нажмите «Оформить заказ» или «Каталог», чтобы начать новый заказ.</p>
         </div>
       )}
     </section>

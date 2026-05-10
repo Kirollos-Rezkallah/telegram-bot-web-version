@@ -7,6 +7,12 @@ import { OrderReviewMessage } from '../OrderReviewMessage/OrderReviewMessage';
 import { formatShortTime } from '../../utils/formatters';
 import styles from './MessageBubble.module.css';
 
+const deliveryStatusLabels = {
+  sent: 'отправлено',
+  delivered: 'доставлено',
+  read: 'прочитано',
+};
+
 function HighlightedText({ query, text }) {
   if (!query) {
     return text;
@@ -91,7 +97,7 @@ export function MessageBubble({ groupedWithNext = false, groupedWithPrevious = f
       <span className={styles.meta}>
         <time>{formatShortTime(message.createdAt)}</time>
         {isOutgoing ? (
-          <span className={styles.checks} aria-label={message.status}>
+          <span className={styles.checks} aria-label={deliveryStatusLabels[message.status] ?? message.status}>
             <FiCheck aria-hidden="true" size={13} />
             {message.status !== 'sent' ? <FiCheck aria-hidden="true" size={13} className={styles.secondCheck} /> : null}
           </span>

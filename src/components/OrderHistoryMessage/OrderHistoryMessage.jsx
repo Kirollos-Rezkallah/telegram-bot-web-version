@@ -16,8 +16,8 @@ export function OrderHistoryMessage({ orderIds = [] }) {
     return (
       <article className={styles.empty}>
         <FiInbox aria-hidden="true" size={24} />
-        <strong>No orders yet</strong>
-        <p>Your paid or pickup-payment confectionery orders will appear here after you place one with Cake Order Bot.</p>
+        <strong>Заказов пока нет</strong>
+        <p>Здесь появятся оплаченные заказы и заказы с оплатой при получении после оформления через бота.</p>
       </article>
     );
   }
@@ -32,26 +32,26 @@ export function OrderHistoryMessage({ orderIds = [] }) {
             <header>
               <div>
                 <span>#{getShortId(order.id)}</span>
-                <h3>{product?.name ?? 'Custom order'}</h3>
+                <h3>{product?.name ?? 'Индивидуальный заказ'}</h3>
               </div>
               <OrderStatusBadge status={order.status} />
             </header>
             <dl>
               <div>
-                <dt>Qty</dt>
+                <dt>Кол-во</dt>
                 <dd>{order.quantity}</dd>
               </div>
               <div>
-                <dt>Pickup</dt>
+                <dt>Получение</dt>
                 <dd>{order.pickupDate}</dd>
               </div>
               <div>
-                <dt>Total</dt>
+                <dt>Итого</dt>
                 <dd>{formatCurrency(order.estimatedTotal)}</dd>
               </div>
               <div>
-                <dt>Payment</dt>
-                <dd>{getPaymentSummary(order) || 'Not set'}</dd>
+                <dt>Оплата</dt>
+                <dd>{getPaymentSummary(order) || 'Не указано'}</dd>
               </div>
             </dl>
           </article>

@@ -31,9 +31,9 @@ export function CatalogMessage({ productIds = [] }) {
             <img src={product.image ?? cakeCard} alt="" onError={(event) => { event.currentTarget.src = cakeCard; }} />
           </div>
           <div className={styles.body}>
-            <span className={styles.category}>{categories[product.categoryId]?.name ?? 'Confectionery'}</span>
+            <span className={styles.category}>{categories[product.categoryId]?.name ?? 'Кондитерские изделия'}</span>
             <h3>{product.name}</h3>
-            <p>{product.description || 'Custom confectionery item from the atelier catalog.'}</p>
+            <p>{product.description || 'Позиция из каталога кондитерского ателье.'}</p>
             <div className={styles.footer}>
               <strong>{formatCurrency(product.basePrice || 0)}</strong>
               <button
@@ -41,7 +41,7 @@ export function CatalogMessage({ productIds = [] }) {
                 onClick={() => dispatch(sendCustomerMessage(product.name, { quickActionId: 'select_product', productId: product.id }))}
               >
                 <FiShoppingBag aria-hidden="true" size={15} />
-                <span>Select</span>
+                <span>Выбрать</span>
               </button>
             </div>
           </div>

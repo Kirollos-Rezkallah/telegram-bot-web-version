@@ -46,8 +46,8 @@ export function MessengerPage() {
         }
       >
         <ChatHeader
-          title={activeChat?.title ?? 'Cake Order Bot'}
-          subtitle={activeChat?.statusText ?? 'bot is online'}
+          title={activeChat?.title ?? 'Бот заказов тортов'}
+          subtitle={activeChat?.statusText ?? 'бот онлайн'}
           onProfileClick={() => dispatch(toggleDetailPanel())}
           tone={activeChat?.tone}
         />

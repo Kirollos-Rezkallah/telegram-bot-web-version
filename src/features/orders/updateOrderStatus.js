@@ -6,11 +6,11 @@ import { formatChatTimestamp } from '../../utils/dateLabels';
 const getShortId = (id) => id.replace('order-', '').slice(0, 8).toUpperCase();
 
 const statusCopy = {
-  New: 'Your order has been received by the atelier.',
-  Confirmed: 'Your order has been confirmed. We have reserved production time for it.',
-  'In progress': 'Your order is now in progress. The pastry team has started preparing it.',
-  Ready: 'Your order is ready for pickup. Please arrive during the selected pickup window.',
-  Completed: 'Your order is completed. Thank you for choosing Anastasia Atelier.',
+  Новый: 'Мы получили ваш заказ в ателье.',
+  Подтвержден: 'Заказ подтвержден. Мы зарезервировали для него производственное время.',
+  'В работе': 'Заказ уже в работе. Кондитерская команда приступила к приготовлению.',
+  Готов: 'Заказ готов к получению. Пожалуйста, приходите в выбранный интервал.',
+  Завершен: 'Заказ завершен. Спасибо, что выбрали Anastasia Atelier.',
 };
 
 export function updateOrderStatus({ orderId, status }) {
@@ -34,9 +34,9 @@ export function updateOrderStatus({ orderId, status }) {
     const product = state.products.entities[order.productId];
     const chatId = order.chatId;
     const text = [
-      `Order #${getShortId(order.id)} status updated: ${status}.`,
-      statusCopy[status] ?? 'We will keep you updated as the order moves forward.',
-      product ? `Item: ${product.name}.` : null,
+      `Статус заказа №${getShortId(order.id)} обновлен: ${status}.`,
+      statusCopy[status] ?? 'Мы будем сообщать вам о следующих изменениях по заказу.',
+      product ? `Позиция: ${product.name}.` : null,
     ]
       .filter(Boolean)
       .join(' ');

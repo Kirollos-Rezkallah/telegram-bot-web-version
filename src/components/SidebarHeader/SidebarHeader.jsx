@@ -9,13 +9,13 @@ import { MenuDropdown } from '../MenuDropdown/MenuDropdown';
 import styles from './SidebarHeader.module.css';
 
 const menuItems = [
-  { icon: FiUser, label: 'My Profile' },
-  { icon: FiUsers, label: 'Contacts' },
-  { icon: FiPhoneCall, label: 'Calls' },
-  { icon: FiStar, label: 'Saved Messages' },
-  { icon: FiSettings, label: 'Settings' },
-  { icon: FiMoon, label: 'Night Mode', trailing: 'Off' },
-  { icon: FiArchive, label: 'Archived Chats' },
+  { icon: FiUser, label: 'Мой профиль' },
+  { icon: FiUsers, label: 'Контакты' },
+  { icon: FiPhoneCall, label: 'Звонки' },
+  { icon: FiStar, label: 'Избранное' },
+  { icon: FiSettings, label: 'Настройки' },
+  { icon: FiMoon, label: 'Ночной режим', trailing: 'Выкл.' },
+  { icon: FiArchive, label: 'Архив чатов' },
 ];
 
 export function SidebarHeader() {
@@ -29,10 +29,10 @@ export function SidebarHeader() {
         <Avatar label="Anastasia" tone="rose" />
         <div className={styles.profileText}>
           <strong>Anastasia</strong>
-          <span>customer workspace</span>
+          <span>рабочее пространство клиента</span>
         </div>
         <IconButton
-          label="Main menu"
+          label="Главное меню"
           className={styles.menuButton}
           onPointerDown={(event) => event.stopPropagation()}
           onClick={() => setMenuOpen((value) => !value)}
@@ -46,7 +46,7 @@ export function SidebarHeader() {
                 <Avatar label="Anastasia" tone="rose" />
                 <span>
                   <strong>Anastasia</strong>
-                  <span>customer workspace</span>
+                  <span>рабочее пространство клиента</span>
                 </span>
               </>
             }
@@ -59,15 +59,15 @@ export function SidebarHeader() {
       <div className={styles.controls}>
         <label className={styles.search}>
           <FiSearch className={styles.searchIcon} aria-hidden="true" size={17} />
-          <span className="visually-hidden">Search</span>
+          <span className="visually-hidden">Поиск</span>
           <input
             type="search"
-            placeholder="Search"
+            placeholder="Поиск"
             value={sidebarQuery}
             onChange={(event) => dispatch(setSidebarQuery(event.target.value))}
           />
           {sidebarQuery ? (
-            <button className={styles.clearSearch} type="button" onClick={() => dispatch(setSidebarQuery(''))} aria-label="Clear search">
+            <button className={styles.clearSearch} type="button" onClick={() => dispatch(setSidebarQuery(''))} aria-label="Очистить поиск">
               <FiX aria-hidden="true" size={15} />
             </button>
           ) : null}

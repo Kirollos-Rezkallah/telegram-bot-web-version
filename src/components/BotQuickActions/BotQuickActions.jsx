@@ -24,7 +24,7 @@ export function BotQuickActions() {
   }
 
   return (
-    <div className={styles.actions} aria-label="Cake Order Bot quick actions">
+    <div className={styles.actions} aria-label="Быстрые действия бота заказов">
       {actions.map((action) => {
         const Icon = iconsByActionId[action.id] ?? FiHelpCircle;
 

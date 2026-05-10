@@ -86,21 +86,21 @@ export function Composer() {
   return (
     <form className={styles.composer} onSubmit={handleSubmit}>
       <div className={styles.inputBar}>
-        <IconButton label="Attach file" className={styles.inlineButton} onClick={() => fileInputRef.current?.click()}>
+        <IconButton label="Прикрепить файл" className={styles.inlineButton} onClick={() => fileInputRef.current?.click()}>
           <FiPaperclip aria-hidden="true" size={21} />
         </IconButton>
         <input ref={fileInputRef} className={styles.fileInput} type="file" onChange={handleFileChange} />
         <label className={styles.inputWrap}>
-          <span className="visually-hidden">Message</span>
+          <span className="visually-hidden">Сообщение</span>
           <input
             type="text"
-            placeholder="Write a message..."
+            placeholder="Напишите сообщение..."
             value={messageText}
             onChange={(event) => setMessageText(event.target.value)}
           />
         </label>
         <IconButton
-          label="Emoji"
+          label="Эмодзи"
           className={styles.inlineButton}
           onPointerDown={(event) => event.stopPropagation()}
           onClick={(event) => {
@@ -120,7 +120,7 @@ export function Composer() {
                 setMessageText((value) => `${value}${emojiData.emoji}`);
               }}
               previewConfig={{ showPreview: false }}
-              searchPlaceHolder="Search emoji"
+              searchPlaceHolder="Поиск эмодзи"
               theme={Theme.LIGHT}
               width="100%"
             />
@@ -128,19 +128,19 @@ export function Composer() {
         ) : null}
       </div>
       {canSend ? (
-        <IconButton label="Send message" variant="filled" type="submit">
+        <IconButton label="Отправить сообщение" variant="filled" type="submit">
           <FiSend aria-hidden="true" size={19} />
         </IconButton>
       ) : (
         <IconButton
-          label={isRecording ? 'Stop recording' : 'Record voice message'}
+          label={isRecording ? 'Остановить запись' : 'Записать голосовое сообщение'}
           variant={isRecording ? 'recording' : 'ghost'}
           onClick={handleVoiceAction}
         >
           <FiMic aria-hidden="true" size={20} />
         </IconButton>
       )}
-      {isRecording ? <span className={styles.recordingHint}>Recording voice...</span> : null}
+      {isRecording ? <span className={styles.recordingHint}>Идет запись голосового сообщения...</span> : null}
     </form>
   );
 }

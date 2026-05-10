@@ -16,7 +16,7 @@ export function ChatList() {
 
   return (
     <div className={styles.list}>
-      {chats.length === 0 ? <p className={styles.empty}>No chats found</p> : null}
+      {chats.length === 0 ? <p className={styles.empty}>Чаты не найдены</p> : null}
       {chats.map((chat, index) => {
         const isActive = chat.id === activeChatId;
         const tone = chat.tone ?? fallbackTones[index % fallbackTones.length];
@@ -41,15 +41,15 @@ export function ChatList() {
               <span className={styles.row}>
                 <strong>
                   {chat.title}
-                  {chat.isVerified ? <FiCheckCircle className={styles.verified} aria-label="verified" size={15} /> : null}
+                  {chat.isVerified ? <FiCheckCircle className={styles.verified} aria-label="подтверждено" size={15} /> : null}
                 </strong>
                 <time>{chat.timestamp}</time>
               </span>
               <span className={styles.row}>
                 <span className={styles.preview}>{chat.subtitle}</span>
                 <span className={styles.meta}>
-                  {chat.isMuted ? <FiBellOff className={styles.metaIcon} aria-label="muted" size={14} /> : null}
-                  {chat.isPinned ? <FiMapPin className={styles.metaIcon} aria-label="pinned" size={14} /> : null}
+                  {chat.isMuted ? <FiBellOff className={styles.metaIcon} aria-label="уведомления отключены" size={14} /> : null}
+                  {chat.isPinned ? <FiMapPin className={styles.metaIcon} aria-label="закреплено" size={14} /> : null}
                   {chat.unreadCount ? <span className={styles.badge}>{chat.unreadCount}</span> : null}
                 </span>
               </span>

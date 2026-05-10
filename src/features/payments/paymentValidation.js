@@ -37,11 +37,11 @@ export function validateCardPayment(fields) {
   const cardholder = fields.cardholder.trim();
 
   if (cardNumber.length < 16 || cardNumber.length > 19) {
-    return 'Enter a valid card number.';
+    return 'Введите корректный номер карты.';
   }
 
   if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry)) {
-    return 'Enter expiry as MM/YY.';
+    return 'Введите срок действия в формате ММ/ГГ.';
   }
 
   const [month, year] = expiry.split('/').map((part) => Number(part));
@@ -51,15 +51,15 @@ export function validateCardPayment(fields) {
   currentMonth.setHours(0, 0, 0, 0);
 
   if (expiryDate <= currentMonth) {
-    return 'Enter a future expiry date.';
+    return 'Укажите действительный срок карты.';
   }
 
   if (cvv.length !== 3) {
-    return 'Enter a valid CVV.';
+    return 'Введите корректный CVV.';
   }
 
   if (cardholder.length < 2) {
-    return 'Enter the cardholder name.';
+    return 'Введите имя держателя карты.';
   }
 
   return '';

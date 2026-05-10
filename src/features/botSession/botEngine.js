@@ -1,17 +1,8 @@
-import { BOT_CHAT_ID, BOT_STAGES, MAIN_BOT_ACTIONS, ORDER_REVIEW_ACTIONS } from './botStages';
+import { BOT_STAGES, MAIN_BOT_ACTIONS, ORDER_REVIEW_ACTIONS } from './botStages';
 
 const normalizeInput = (value) => value.trim().toLowerCase();
 
 const getProducts = (state) => state.products.ids.map((id) => state.products.entities[id]).filter(Boolean);
-
-const getProductLine = (product, index) => `${index + 1}. ${product.name} - ${product.basePrice} RUB`;
-
-const getCatalogText = (products) =>
-  [
-    'Here is today\'s confectionery catalog:',
-    ...products.map(getProductLine),
-    'Send a product number to choose it, or tap Make order to start.',
-  ].join('\n');
 
 function parsePositiveInteger(input) {
   const value = Number.parseInt(input, 10);
@@ -37,7 +28,7 @@ function parsePickupDate(input) {
     year = Number(ruMatch[3]);
   } else {
     return {
-      error: 'Please enter the pickup date as YYYY-MM-DD or DD.MM.YYYY.',
+      error: 'Укажите дату получения в формате ГГГГ-ММ-ДД или ДД.ММ.ГГГГ.',
     };
   }
 
@@ -45,7 +36,7 @@ function parsePickupDate(input) {
 
   if (parsedDate.getFullYear() !== year || parsedDate.getMonth() !== month - 1 || parsedDate.getDate() !== day) {
     return {
-      error: 'That date does not look valid. Please check the day and month.',
+      error: 'Похоже, дата указана неверно. Проверьте день и месяц.',
     };
   }
 
@@ -55,7 +46,7 @@ function parsePickupDate(input) {
 
   if (parsedDate < today) {
     return {
-      error: 'Pickup date cannot be in the past. Please choose a future date.',
+      error: 'Дата получения не может быть в прошлом. Выберите будущую дату.',
     };
   }
 
@@ -76,7 +67,7 @@ function getActionId(input, quickActionId) {
 
 function buildCatalogMessage(products) {
   return {
-    text: 'Here is today\'s confectionery catalog. Choose a dessert card below to continue.',
+    text: 'Вот актуальный каталог кондитерской. Выберите карточку десерта ниже, чтобы продолжить.',
     type: 'catalog',
     productIds: products.map((product) => product.id),
   };
@@ -84,7 +75,7 @@ function buildCatalogMessage(products) {
 
 function buildOrderReviewMessage({ draft, product }) {
   return {
-    text: 'Please review your order summary before confirmation.',
+    text: 'Пожалуйста, проверьте состав заказа перед оплатой.',
     type: 'order_review',
     orderReview: {
       productId: product.id,
@@ -100,11 +91,11 @@ function buildInvoiceMessage({ draft, product }) {
   const total = product.basePrice * draft.quantity;
 
   return {
-    text: `Invoice issued for ${product.name}. Tap Pay to choose Card, SBP, or Pay on pickup.`,
+    text: `Счет для позиции «${product.name}» готов. Нажмите «Оплатить», чтобы выбрать карту, СБП или оплату при получении.`,
     type: 'invoice',
     invoice: {
-      title: 'Anastasia Atelier invoice',
-      description: 'Confectionery order payment',
+      title: 'Счет Anastasia Atelier',
+      description: 'Оплата кондитерского заказа',
       productId: product.id,
       quantity: draft.quantity,
       pickupDate: draft.pickupDate,
@@ -117,7 +108,7 @@ function buildInvoiceMessage({ draft, product }) {
 
 function buildOrderHistoryMessage(orders) {
   return {
-    text: orders.length ? 'Here are your customer orders.' : 'You do not have confirmed orders yet.',
+    text: orders.length ? 'Вот ваши заказы.' : 'У вас пока нет подтвержденных заказов.',
     type: 'order_history',
     orderIds: orders.map((order) => order.id),
   };
@@ -153,7 +144,7 @@ export function runCakeOrderBot({ input, quickActionId, state }) {
   if (actionId === 'help') {
     return {
       messages: [
-        'I can show the catalog, create a cake order, show your saved orders, and help review pickup details. Use the buttons below or type the option you need.',
+        'Я могу показать каталог, помочь оформить заказ, открыть ваши заказы и подсказать по деталям получения. Используйте кнопки ниже или напишите нужный вариант.',
       ],
       botSession: {
         currentStep: BOT_STAGES.HELP,
@@ -179,7 +170,7 @@ export function runCakeOrderBot({ input, quickActionId, state }) {
   if (actionId === 'make_order') {
     return {
       messages: [
-        'Great. Please choose a product from the catalog cards below. You can also send a product number.',
+        'Отлично. Выберите позицию из карточек каталога ниже. Также можно отправить номер позиции.',
         buildCatalogMessage(products),
       ],
       botSession: {
@@ -200,7 +191,7 @@ export function runCakeOrderBot({ input, quickActionId, state }) {
 
     if (!product) {
       return {
-        messages: ['I could not find that product. Please choose one of the catalog cards.'],
+        messages: ['Не удалось найти такую позицию. Пожалуйста, выберите одну из карточек каталога.'],
         botSession: {
           currentStep: BOT_STAGES.CHOOSING_PRODUCT,
           availableActions: MAIN_BOT_ACTIONS,
@@ -209,7 +200,7 @@ export function runCakeOrderBot({ input, quickActionId, state }) {
     }
 
     return {
-      messages: [`Selected: ${product.name}. How many would you like? Please send a quantity greater than 0.`],
+      messages: [`Выбрано: ${product.name}. Сколько штук вам нужно? Отправьте количество больше нуля.`],
       botSession: {
         currentStep: BOT_STAGES.ENTERING_QUANTITY,
         availableActions: MAIN_BOT_ACTIONS,
@@ -233,7 +224,7 @@ export function runCakeOrderBot({ input, quickActionId, state }) {
 
     if (!product || !draft.quantity || !draft.pickupDate) {
       return {
-        messages: ['Some required details are missing. Let us start the order again. Please choose a product number.'],
+        messages: ['Не хватает обязательных данных. Давайте начнем заказ заново. Пожалуйста, выберите номер позиции.'],
         botSession: {
           currentStep: BOT_STAGES.CHOOSING_PRODUCT,
           availableActions: MAIN_BOT_ACTIONS,
@@ -252,7 +243,7 @@ export function runCakeOrderBot({ input, quickActionId, state }) {
 
   if (botSession.currentStep === BOT_STAGES.AWAITING_PAYMENT) {
     return {
-      messages: ['Please use the Pay button in the invoice message to complete this order, or tap Make order to start again.'],
+      messages: ['Чтобы завершить заказ, используйте кнопку «Оплатить» в сообщении со счетом или нажмите «Оформить заказ», чтобы начать заново.'],
       botSession: {
         currentStep: BOT_STAGES.AWAITING_PAYMENT,
         availableActions: [],
@@ -265,7 +256,7 @@ export function runCakeOrderBot({ input, quickActionId, state }) {
 
     if (!product) {
       return {
-        messages: ['I could not find that product. Please send a catalog number, for example 1.'],
+        messages: ['Не удалось найти такую позицию. Отправьте номер из каталога, например 1.'],
         botSession: {
           currentStep: BOT_STAGES.CHOOSING_PRODUCT,
           availableActions: MAIN_BOT_ACTIONS,
@@ -274,7 +265,7 @@ export function runCakeOrderBot({ input, quickActionId, state }) {
     }
 
     return {
-      messages: [`Selected: ${product.name}. How many would you like? Please send a quantity greater than 0.`],
+      messages: [`Выбрано: ${product.name}. Сколько штук вам нужно? Отправьте количество больше нуля.`],
       botSession: {
         currentStep: BOT_STAGES.ENTERING_QUANTITY,
         availableActions: MAIN_BOT_ACTIONS,
@@ -298,7 +289,7 @@ export function runCakeOrderBot({ input, quickActionId, state }) {
 
     if (!quantity) {
       return {
-        messages: ['Quantity must be a whole number greater than 0. Please send a quantity like 1, 2, or 6.'],
+        messages: ['Количество должно быть целым числом больше нуля. Например: 1, 2 или 6.'],
         botSession: {
           currentStep: BOT_STAGES.ENTERING_QUANTITY,
           availableActions: MAIN_BOT_ACTIONS,
@@ -309,7 +300,7 @@ export function runCakeOrderBot({ input, quickActionId, state }) {
     const product = state.products.entities[draft.productId];
 
     return {
-      messages: [`Quantity set to ${quantity}. Please enter pickup date as YYYY-MM-DD or DD.MM.YYYY.`],
+      messages: [`Количество указано: ${quantity}. Теперь введите дату получения в формате ГГГГ-ММ-ДД или ДД.ММ.ГГГГ.`],
       botSession: {
         currentStep: BOT_STAGES.ENTERING_PICKUP_DATE,
         availableActions: MAIN_BOT_ACTIONS,
@@ -339,7 +330,7 @@ export function runCakeOrderBot({ input, quickActionId, state }) {
     }
 
     return {
-      messages: ['Pickup date saved: ' + result.value + '. Add a comment or inscription. Send "-" if there is no comment.'],
+      messages: [`Дата получения сохранена: ${result.value}. Добавьте комментарий или надпись. Если комментария нет, отправьте "-".`],
       botSession: {
         currentStep: BOT_STAGES.ENTERING_COMMENT,
         availableActions: MAIN_BOT_ACTIONS,
@@ -365,7 +356,7 @@ export function runCakeOrderBot({ input, quickActionId, state }) {
 
     if (!product || !reviewDraft.quantity || !reviewDraft.pickupDate) {
       return {
-        messages: ['The draft is missing required details. Tap Make order and we will start again.'],
+        messages: ['В черновике не хватает обязательных данных. Нажмите «Оформить заказ», и мы начнем заново.'],
         botSession: {
           currentStep: BOT_STAGES.IDLE,
           availableActions: MAIN_BOT_ACTIONS,
@@ -389,7 +380,7 @@ export function runCakeOrderBot({ input, quickActionId, state }) {
 
   if (botSession.currentStep === BOT_STAGES.REVIEWING_ORDER) {
     return {
-      messages: ['Please tap Confirm order to receive the payment invoice, or Edit order to restart the draft.'],
+      messages: ['Нажмите «Перейти к оплате», чтобы получить счет, или «Изменить заказ», чтобы начать черновик заново.'],
       botSession: {
         currentStep: BOT_STAGES.REVIEWING_ORDER,
         availableActions: ORDER_REVIEW_ACTIONS,
@@ -398,7 +389,7 @@ export function runCakeOrderBot({ input, quickActionId, state }) {
   }
 
   return {
-    messages: ['I am ready to help. Choose an action below: View catalog, Make order, My orders, or Help.'],
+    messages: ['Я готов помочь. Выберите действие ниже: «Каталог», «Оформить заказ», «Мои заказы» или «Помощь».'],
     botSession: {
       currentStep: BOT_STAGES.IDLE,
       availableActions: MAIN_BOT_ACTIONS,

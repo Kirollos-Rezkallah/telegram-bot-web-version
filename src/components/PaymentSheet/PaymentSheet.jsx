@@ -140,24 +140,24 @@ export function PaymentSheet({ invoice, onClose }) {
         }
       }}
     >
-      <form className={styles.sheet} onSubmit={handleSubmit} aria-label="Payment sheet" role="dialog" aria-modal="true">
+      <form className={styles.sheet} onSubmit={handleSubmit} aria-label="Окно оплаты" role="dialog" aria-modal="true">
         <header className={styles.header}>
           <div>
-            <span>Telegram payment</span>
-            <h2>{invoice?.title ?? 'Invoice'}</h2>
+            <span>Оплата в Telegram</span>
+            <h2>{invoice?.title ?? 'Счет'}</h2>
           </div>
-          <button type="button" onClick={onClose} aria-label="Close payment sheet">
+          <button type="button" onClick={onClose} aria-label="Закрыть окно оплаты">
             <FiX aria-hidden="true" size={20} />
           </button>
         </header>
 
         <section className={styles.summary}>
-          <strong>{product?.name ?? 'Confectionery order'}</strong>
-          <span>Qty {invoice?.quantity} / Pickup {invoice?.pickupDate}</span>
+          <strong>{product?.name ?? 'Кондитерский заказ'}</strong>
+          <span>Кол-во: {invoice?.quantity} / Получение: {invoice?.pickupDate}</span>
           <b>{formatCurrency(invoice?.total ?? 0)}</b>
         </section>
 
-        <div className={styles.methods} role="radiogroup" aria-label="Payment method">
+        <div className={styles.methods} role="radiogroup" aria-label="Способ оплаты">
           {paymentOptions.map((option) => {
             const Icon = option.icon;
 
@@ -181,7 +181,7 @@ export function PaymentSheet({ invoice, onClose }) {
         {method === PAYMENT_METHODS.CARD ? (
           <div className={styles.cardFields}>
             <label>
-              <span>Card number</span>
+              <span>Номер карты</span>
               <input
                 ref={cardNumberRef}
                 autoComplete="cc-number"
@@ -200,12 +200,12 @@ export function PaymentSheet({ invoice, onClose }) {
             </label>
             <div className={styles.row}>
               <label>
-                <span>Expiry</span>
+                <span>Срок действия</span>
                 <input
                   ref={expiryRef}
                   autoComplete="cc-exp"
                   inputMode="numeric"
-                  placeholder="MM/YY"
+                  placeholder="ММ/ГГ"
                   value={card.expiry}
                   onChange={(event) =>
                     handleFormattedChange({
@@ -238,10 +238,10 @@ export function PaymentSheet({ invoice, onClose }) {
               </label>
             </div>
             <label>
-              <span>Cardholder</span>
+              <span>Держатель карты</span>
               <input
                 autoComplete="cc-name"
-                placeholder="ANASTASIA IVANOVA"
+                placeholder="АНАСТАСИЯ ИВАНОВА"
                 value={card.cardholder}
                 onChange={(event) => {
                   updateCard('cardholder', event.target.value);
@@ -255,14 +255,14 @@ export function PaymentSheet({ invoice, onClose }) {
         {method === PAYMENT_METHODS.SBP ? (
           <div className={styles.note}>
             <FiSmartphone aria-hidden="true" size={20} />
-            <p>Confirm this simulated SBP payment. No bank app will be opened.</p>
+            <p>Подтвердите эту демонстрационную оплату через СБП. Банковское приложение открываться не будет.</p>
           </div>
         ) : null}
 
         {method === PAYMENT_METHODS.PICKUP ? (
           <div className={styles.note}>
             <FiShoppingBag aria-hidden="true" size={20} />
-            <p>The order will be accepted now. Payment status will stay pending until pickup.</p>
+            <p>Заказ будет принят сразу. Статус оплаты останется «Ожидает оплаты» до момента получения.</p>
           </div>
         ) : null}
 
@@ -270,10 +270,10 @@ export function PaymentSheet({ invoice, onClose }) {
 
         <button className={styles.payButton} disabled={isSubmitDisabled} type="submit">
           {processing
-            ? 'Processing...'
+            ? 'Обработка...'
             : method === PAYMENT_METHODS.PICKUP
-              ? 'Confirm pay on pickup'
-              : `Pay ${formatCurrency(invoice?.total ?? 0)}`}
+              ? 'Подтвердить оплату при получении'
+              : `Оплатить ${formatCurrency(invoice?.total ?? 0)}`}
         </button>
       </form>
     </div>
